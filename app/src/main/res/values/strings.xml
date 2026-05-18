@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">智课签</string>
+    <string name="base_url">http://10.0.2.2:8081/api/v1/</string>
+</resources>

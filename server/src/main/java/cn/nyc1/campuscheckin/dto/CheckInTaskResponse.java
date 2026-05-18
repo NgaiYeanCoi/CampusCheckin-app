@@ -1,0 +1,74 @@
+package cn.nyc1.campuscheckin.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+
+@Schema(description = "签到任务信息")
+public class CheckInTaskResponse {
+
+    @Schema(description = "签到任务 ID", example = "1")
+    private Long taskId;
+
+    @Schema(description = "课程 ID", example = "1")
+    private Long courseId;
+
+    @Schema(description = "签到任务标题", example = "Android应用开发 今日课堂签到")
+    private String title;
+
+    @Schema(description = "签到开始时间", example = "2026-05-17T14:00:00")
+    private LocalDateTime startTime;
+
+    @Schema(description = "签到截止时间", example = "2026-05-17T15:00:00")
+    private LocalDateTime endTime;
+
+    @Schema(description = "签到任务状态", example = "ACTIVE", allowableValues = {"NOT_STARTED", "ACTIVE", "ENDED", "CANCELLED"})
+    private String status;
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

@@ -1,0 +1,41 @@
+[versions]
+agp = "8.6.0"
+springBoot = "3.3.13"
+springDependencyManagement = "1.1.7"
+mybatisSpringBoot = "3.0.3"
+saToken = "1.45.0"
+springdocOpenapi = "2.6.0"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.6.1"
+material = "1.12.0"
+activity = "1.9.3"
+constraintlayout = "2.1.4"
+recyclerview = "1.3.2"
+retrofit = "2.11.0"
+
+[libraries]
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
+spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+spring-security-crypto = { group = "org.springframework.security", name = "spring-security-crypto" }
+mybatis-spring-boot-starter = { group = "org.mybatis.spring.boot", name = "mybatis-spring-boot-starter", version.ref = "mybatisSpringBoot" }
+mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j" }
+sa-token-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-spring-boot3-starter", version.ref = "saToken" }
+springdoc-openapi-starter-webmvc-ui = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springdocOpenapi" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }

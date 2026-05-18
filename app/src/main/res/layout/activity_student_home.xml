@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cc_background"
+    android:orientation="vertical"
+    android:padding="@dimen/space_xl">
+
+    <TextView
+        android:id="@+id/textGreeting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cc_text"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xs"
+        android:textColor="@color/cc_text_muted"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_lg"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSchedule"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_weight="1"
+            android:text="周课表"
+            app:cornerRadius="@dimen/radius_md" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonRecords"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginStart="@dimen/space_sm"
+            android:layout_weight="1"
+            android:text="签到记录"
+            app:cornerRadius="@dimen/radius_md" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonProfile"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginStart="@dimen/space_sm"
+            android:layout_weight="1"
+            android:text="我的"
+            app:cornerRadius="@dimen/radius_md" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textHomeStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_md"
+        android:textColor="@color/cc_text_muted"
+        android:textSize="13sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCourses"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_md"
+        android:layout_weight="1" />
+</LinearLayout>
