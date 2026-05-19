@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.nyc1.myapplication.model.AttendanceStats;
 import cn.nyc1.myapplication.model.CheckInRecord;
+import cn.nyc1.myapplication.model.CheckInTask;
 import cn.nyc1.myapplication.model.Course;
 
 public final class PreviewData {
@@ -56,6 +57,20 @@ public final class PreviewData {
         record.remark = "离线预览记录";
         records.add(record);
         return records;
+    }
+
+    public static List<CheckInTask> tasks() {
+        List<CheckInTask> tasks = new ArrayList<>();
+        CheckInTask task = new CheckInTask();
+        task.taskId = 1L;
+        task.courseId = 1L;
+        task.courseName = "Android应用开发";
+        task.title = "Android应用开发 今日课堂签到";
+        task.startTime = "2026-05-17 14:00:00";
+        task.endTime = "2026-05-17 15:00:00";
+        task.status = "ACTIVE";
+        tasks.add(task);
+        return tasks;
     }
 
     public static List<AttendanceStats> stats() {

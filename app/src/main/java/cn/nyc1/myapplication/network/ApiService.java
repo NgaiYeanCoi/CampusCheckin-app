@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @POST("auth/login")
@@ -50,6 +51,18 @@ public interface ApiService {
     Call<ApiResponse<CheckInTask>> createCheckInTask(
             @Header("Authorization") String token,
             @Body CreateCheckInTaskRequest request
+    );
+
+    @GET("teacher/check-in-tasks")
+    Call<ApiResponse<List<CheckInTask>>> getTeacherCheckInTasks(
+            @Header("Authorization") String token,
+            @Query("courseId") Long courseId
+    );
+
+    @POST("teacher/check-in-tasks/{taskId}/end")
+    Call<ApiResponse<CheckInTask>> endCheckInTask(
+            @Header("Authorization") String token,
+            @Path("taskId") long taskId
     );
 
     @GET("teacher/courses/{courseId}/attendance-stats")

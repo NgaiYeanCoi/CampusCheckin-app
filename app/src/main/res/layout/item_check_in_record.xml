@@ -18,29 +18,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/cc_text"
-            android:textSize="16sp"
+            android:textColor="@color/vc_ink"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/space_sm"
+            android:fontFamily="monospace"
+            android:paddingStart="@dimen/space_md"
             android:paddingTop="@dimen/space_xs"
-            android:paddingEnd="@dimen/space_sm"
+            android:paddingEnd="@dimen/space_md"
             android:paddingBottom="@dimen/space_xs"
-            android:textColor="@color/cc_text"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textColor="@color/vc_blue"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textTaskTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_sm"
-        android:textColor="@color/cc_text_muted"
+        android:layout_marginTop="@dimen/space_md"
+        android:textColor="@color/vc_body"
         android:textSize="14sp" />
 
     <TextView
@@ -48,14 +48,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_xs"
-        android:textColor="@color/cc_text_muted"
-        android:textSize="14sp" />
+        android:fontFamily="monospace"
+        android:textColor="@color/vc_mute"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/textRemark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_xs"
-        android:textColor="@color/cc_text_soft"
+        android:textColor="@color/vc_mute"
         android:textSize="13sp" />
 </LinearLayout>

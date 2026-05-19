@@ -3,18 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cc_background"
+    android:background="@color/vc_bg"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/space_xl">
 
     <TextView
-        android:id="@+id/textStatus"
+        style="@style/VercelMonoLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@color/cc_primary"
-        android:textSize="30sp"
+        android:text="CHECK-IN RESULT" />
+
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_lg"
+        android:gravity="center"
+        android:textColor="@color/vc_ink"
+        android:textSize="38sp"
         android:textStyle="bold" />
 
     <TextView
@@ -23,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_md"
         android:gravity="center"
-        android:textColor="@color/cc_text"
+        android:textColor="@color/vc_body"
         android:textSize="16sp" />
 
     <TextView
@@ -31,9 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_sm"
+        android:fontFamily="monospace"
         android:gravity="center"
-        android:textColor="@color/cc_text_muted"
-        android:textSize="14sp" />
+        android:textColor="@color/vc_mute"
+        android:textSize="12sp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonBackHome"
@@ -41,6 +50,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_marginTop="@dimen/space_xl"
         android:text="返回首页"
-        app:backgroundTint="@color/cc_primary"
-        app:cornerRadius="@dimen/radius_md" />
+        android:textColor="@color/vc_card"
+        app:backgroundTint="@color/vc_ink"
+        app:cornerRadius="999dp" />
 </LinearLayout>

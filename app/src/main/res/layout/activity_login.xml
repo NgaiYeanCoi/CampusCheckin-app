@@ -3,83 +3,115 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cc_background"
+    android:background="@color/vc_bg"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/space_xxl">
+        android:padding="@dimen/space_xl">
+
+        <TextView
+            style="@style/VercelMonoLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xxl"
+            android:text="CAMPUSCHECKIN / AUTH" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:lineSpacingMultiplier="0.95"
+            android:text="课程签到系统."
+            android:textColor="@color/vc_ink"
+            android:textSize="42sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:text="学生完成课堂口令签到，教师创建任务并查看课程维度统计。"
+            android:textColor="@color/vc_body"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_navy_card"
-            android:orientation="vertical"
-            android:padding="@dimen/space_xxl">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="智课签"
-                android:textColor="@color/white"
-                android:textSize="32sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_sm"
-                android:text="校园课程考勤签到 APP"
-                android:textColor="@color/cc_text_soft"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginTop="36dp"
             android:background="@drawable/bg_card"
             android:orientation="vertical"
             android:padding="@dimen/space_xl">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="账号登录"
-                android:textColor="@color/cc_text"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sign in"
+                    android:textColor="@color/vc_ink"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_status_neutral"
+                    android:fontFamily="monospace"
+                    android:paddingStart="@dimen/space_md"
+                    android:paddingTop="@dimen/space_xs"
+                    android:paddingEnd="@dimen/space_md"
+                    android:paddingBottom="@dimen/space_xs"
+                    android:text="● LIVE"
+                    android:textColor="@color/vc_body"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/VercelMonoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xl"
+                android:text="Username" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editUsername"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/bg_input_vercel"
+                android:paddingStart="@dimen/space_lg"
+                android:paddingEnd="@dimen/space_lg"
+                android:singleLine="true"
+                android:textColor="@color/vc_ink"
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/VercelMonoLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_lg"
-                android:hint="账号"
-                app:boxStrokeColor="@color/cc_primary">
+                android:text="Password" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editUsername"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:hint="密码"
-                app:boxStrokeColor="@color/cc_primary">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/bg_input_vercel"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/space_lg"
+                android:paddingEnd="@dimen/space_lg"
+                android:singleLine="true"
+                android:textColor="@color/vc_ink"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,20 +122,21 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonStudent"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/button_height"
+                    android:layout_height="44dp"
                     android:layout_weight="1"
                     android:text="学生"
                     app:cornerRadius="999dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonTeacher"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/button_height"
+                    android:layout_height="44dp"
                     android:layout_marginStart="@dimen/space_sm"
                     android:layout_weight="1"
                     android:text="教师"
-                    app:cornerRadius="999dp" />
+                    app:cornerRadius="999dp"
+                    app:strokeColor="@color/vc_line"
+                    app:strokeWidth="1dp" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -112,16 +145,40 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/space_lg"
                 android:text="登录"
-                app:backgroundTint="@color/cc_primary"
-                app:cornerRadius="@dimen/radius_md" />
+                android:textColor="@color/vc_card"
+                app:backgroundTint="@color/vc_ink"
+                app:cornerRadius="999dp" />
 
             <TextView
                 android:id="@+id/textLoginStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_md"
-                android:textColor="@color/cc_text_muted"
+                android:textColor="@color/vc_body"
                 android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
+            <TextView
+                style="@style/VercelMonoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DEMO ACCOUNTS" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="s20260001 / t20260001 · password 123456"
+                android:textColor="@color/vc_body"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

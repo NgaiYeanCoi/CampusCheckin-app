@@ -17,14 +17,22 @@ http://localhost:8081/swagger-ui.html
 本机调试地址：
 
 ```text
-http://localhost:8080/api/v1
+http://localhost:8081/api/v1
 ```
 
 Android 模拟器访问宿主机后端地址：
 
 ```text
-http://10.0.2.2:8080/api/v1
+http://10.0.2.2:8081/api/v1
 ```
+
+Android 当前实际生效的 baseUrl 配置在：
+
+```text
+app/src/main/java/cn/nyc1/myapplication/network/RetrofitClient.java
+```
+
+`RetrofitClient.BASE_URL` 是当前运行时来源。`app/src/main/res/values/strings.xml` 中的 `base_url` 仅同步保留为资源文本，当前 Retrofit 不从该字符串读取配置。
 
 请求和响应格式：
 
@@ -75,7 +83,7 @@ Authorization: <token>
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/auth/me" `
+  -Uri "http://localhost:8081/api/v1/auth/me" `
   -Headers @{ Authorization = $studentToken }
 ```
 
@@ -394,12 +402,13 @@ POST /teacher/check-in-tasks
 {
   "code": 0,
   "message": "success",
-  "data": {
-    "taskId": 4,
-    "courseId": 1,
-    "title": "Android应用开发 临时签到",
-    "startTime": "2026-05-17 14:00:00",
-    "endTime": "2026-05-17 15:00:00",
+    "data": {
+      "taskId": 4,
+      "courseId": 1,
+      "courseName": "Android应用开发",
+      "title": "Android应用开发 临时签到",
+      "startTime": "2026-05-17 14:00:00",
+      "endTime": "2026-05-17 15:00:00",
     "status": "ACTIVE"
   }
 }
@@ -413,7 +422,80 @@ POST /teacher/check-in-tasks
 | ACTIVE | 可签到 |
 | ENDED | 已结束 |
 
-### 7.3 教师查看课程考勤统计
+### 7.3 教师签到任务列表
+
+```text
+GET /teacher/check-in-tasks
+```
+
+是否需要 token：是，教师角色
+
+查询参数：
+
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| courseId | long | 否 | 按课程筛选签到任务 |
+
+成功响应：
+
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": [
+    {
+      "taskId": 4,
+      "courseId": 1,
+      "courseName": "Android应用开发",
+      "title": "Android应用开发 临时签到",
+      "startTime": "2026-05-17 14:00:00",
+      "endTime": "2026-05-17 15:00:00",
+      "status": "ACTIVE"
+    }
+  ]
+}
+```
+
+### 7.4 教师手动截止签到任务
+
+```text
+POST /teacher/check-in-tasks/{taskId}/end
+```
+
+是否需要 token：是，教师角色
+
+路径参数：
+
+| 参数 | 类型 | 说明 |
+|---|---|---|
+| taskId | long | 签到任务 ID |
+
+成功响应：
+
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "taskId": 4,
+    "courseId": 1,
+    "courseName": "Android应用开发",
+    "title": "Android应用开发 临时签到",
+    "startTime": "2026-05-17 14:00:00",
+    "endTime": "2026-05-17 14:32:00",
+    "status": "ENDED"
+  }
+}
+```
+
+常见失败：
+
+| 场景 | code | message |
+|---|---|---|
+| 操作其他教师课程任务 | 400 | 签到任务不存在，或无权操作该任务 |
+| 任务未开始或已结束 | 400 | 只能手动截止进行中的签到任务 |
+
+### 7.5 教师查看课程考勤统计
 
 ```text
 GET /teacher/courses/{courseId}/attendance-stats
@@ -498,11 +580,12 @@ GET /courses/{courseId}/active-check-in-task
 {
   "code": 0,
   "message": "success",
-  "data": {
-    "taskId": 1,
-    "courseId": 1,
-    "title": "Android应用开发 今日课堂签到",
-    "startTime": "2026-05-17 14:00:00",
+    "data": {
+      "taskId": 1,
+      "courseId": 1,
+      "courseName": "Android应用开发",
+      "title": "Android应用开发 今日课堂签到",
+      "startTime": "2026-05-17 14:00:00",
     "endTime": "2026-05-17 15:00:00",
     "status": "ACTIVE"
   }
@@ -552,3 +635,4 @@ GET /courses/{courseId}/active-check-in-task
 | LATE | 迟到 |
 | ABSENT | 缺勤 |
 | EXCEPTION | 异常 |
+

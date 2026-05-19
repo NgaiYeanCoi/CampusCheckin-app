@@ -86,20 +86,17 @@ $env:DB_PASSWORD="你的MySQL密码"
 启动后端：
 
 ```powershell
-.\gradlew.bat :server:bootRun
-```
-
-后端默认地址：
-
-```text
-http://localhost:8080/api/v1
-```
-
-如果 8080 端口被占用，可以临时换端口：
-
-```powershell
 .\gradlew.bat :server:bootRun --args="--server.port=8081"
 ```
+
+当前后端本机调试地址：
+
+```text
+http://localhost:8081/api/v1
+```
+
+如果你要使用 Spring Boot 默认 8080 端口，需要同步修改 Android 端 `RetrofitClient.BASE_URL`。
+
 
 ## 5. Android 运行
 
@@ -118,13 +115,27 @@ app/build/outputs/apk/debug/app-debug.apk
 Android 模拟器访问电脑本机后端时不能使用 `localhost`，应使用：
 
 ```text
-http://10.0.2.2:8080/api/v1
+http://10.0.2.2:8081/api/v1
 ```
+
+当前 Android 端真正生效的 baseUrl 配置在：
+
+```text
+app/src/main/java/cn/nyc1/myapplication/network/RetrofitClient.java
+```
+
+其中 `RetrofitClient.BASE_URL` 当前为：
+
+```text
+http://10.0.2.2:8081/api/v1/
+```
+
+`app/src/main/res/values/strings.xml` 中的 `base_url` 目前只作为同步保留的资源文本，不是当前 Retrofit 的运行时配置来源。
 
 电脑浏览器、PowerShell、Postman 测试后端时使用：
 
 ```text
-http://localhost:8080/api/v1
+http://localhost:8081/api/v1
 ```
 
 ## 6. 演示账号
@@ -166,7 +177,7 @@ t20260002
 ```powershell
 $studentLogin = Invoke-RestMethod `
   -Method Post `
-  -Uri "http://localhost:8080/api/v1/auth/login" `
+  -Uri "http://localhost:8081/api/v1/auth/login" `
   -ContentType "application/json" `
   -Body '{"username":"s20260001","password":"123456","role":"STUDENT"}'
 
@@ -179,7 +190,7 @@ $studentToken
 ```powershell
 $teacherLogin = Invoke-RestMethod `
   -Method Post `
-  -Uri "http://localhost:8080/api/v1/auth/login" `
+  -Uri "http://localhost:8081/api/v1/auth/login" `
   -ContentType "application/json" `
   -Body '{"username":"t20260001","password":"123456","role":"TEACHER"}'
 
@@ -192,7 +203,7 @@ $teacherToken
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/auth/me" `
+  -Uri "http://localhost:8081/api/v1/auth/me" `
   -Headers @{ Authorization = $studentToken }
 ```
 
@@ -201,7 +212,7 @@ Invoke-RestMethod `
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/student/courses" `
+  -Uri "http://localhost:8081/api/v1/student/courses" `
   -Headers @{ Authorization = $studentToken }
 ```
 
@@ -210,7 +221,7 @@ Invoke-RestMethod `
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/student/schedule" `
+  -Uri "http://localhost:8081/api/v1/student/schedule" `
   -Headers @{ Authorization = $studentToken }
 ```
 
@@ -219,7 +230,7 @@ Invoke-RestMethod `
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/courses/1/active-check-in-task" `
+  -Uri "http://localhost:8081/api/v1/courses/1/active-check-in-task" `
   -Headers @{ Authorization = $studentToken }
 ```
 
@@ -230,7 +241,7 @@ Invoke-RestMethod `
 ```powershell
 Invoke-RestMethod `
   -Method Post `
-  -Uri "http://localhost:8080/api/v1/student/check-in" `
+  -Uri "http://localhost:8081/api/v1/student/check-in" `
   -ContentType "application/json" `
   -Headers @{ Authorization = $studentToken } `
   -Body '{"taskId":1,"password":"246810"}'
@@ -243,7 +254,7 @@ Invoke-RestMethod `
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/student/check-in-records" `
+  -Uri "http://localhost:8081/api/v1/student/check-in-records" `
   -Headers @{ Authorization = $studentToken }
 ```
 
@@ -252,27 +263,60 @@ Invoke-RestMethod `
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/teacher/courses" `
+  -Uri "http://localhost:8081/api/v1/teacher/courses" `
   -Headers @{ Authorization = $teacherToken }
 ```
 
 ### 7.10 教师发起签到
 
 ```powershell
-Invoke-RestMethod `
+$createdTask = Invoke-RestMethod `
   -Method Post `
-  -Uri "http://localhost:8080/api/v1/teacher/check-in-tasks" `
+  -Uri "http://localhost:8081/api/v1/teacher/check-in-tasks" `
   -ContentType "application/json" `
   -Headers @{ Authorization = $teacherToken } `
-  -Body '{"courseId":1,"title":"Android应用开发 临时签到","password":"888888","startTime":"2026-05-17T14:00:00","endTime":"2026-05-17T15:00:00"}'
+  -Body '{"courseId":1,"title":"Android应用开发 临时签到","password":"888888","startTime":"2026-05-19T14:00:00","endTime":"2026-05-19T15:00:00"}'
+
+$createdTask.data.taskId
 ```
 
-### 7.11 教师查看考勤统计
+### 7.11 教师查询签到任务列表
 
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:8080/api/v1/teacher/courses/1/attendance-stats" `
+  -Uri "http://localhost:8081/api/v1/teacher/check-in-tasks" `
+  -Headers @{ Authorization = $teacherToken }
+```
+
+也可以按课程筛选：
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:8081/api/v1/teacher/check-in-tasks?courseId=1" `
+  -Headers @{ Authorization = $teacherToken }
+```
+
+### 7.12 教师手动截止签到任务
+
+只允许截止当前教师自己课程下正在进行的签到任务。
+
+```powershell
+$taskId = $createdTask.data.taskId
+
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:8081/api/v1/teacher/check-in-tasks/$taskId/end" `
+  -Headers @{ Authorization = $teacherToken }
+```
+
+### 7.13 教师查看考勤统计
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:8081/api/v1/teacher/courses/1/attendance-stats" `
   -Headers @{ Authorization = $teacherToken }
 ```
 
@@ -290,6 +334,8 @@ GET  /api/v1/student/check-in-records
 
 GET  /api/v1/teacher/courses
 POST /api/v1/teacher/check-in-tasks
+GET  /api/v1/teacher/check-in-tasks
+POST /api/v1/teacher/check-in-tasks/{taskId}/end
 GET  /api/v1/teacher/courses/{courseId}/attendance-stats
 
 GET  /api/v1/courses/{courseId}
@@ -382,3 +428,4 @@ Authorization: 返回的token
 ```
 
 修改系统环境变量后，重启 VS Code 和 Android Studio。
+

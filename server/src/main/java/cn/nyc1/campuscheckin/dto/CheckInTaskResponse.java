@@ -12,6 +12,9 @@ public class CheckInTaskResponse {
     @Schema(description = "课程 ID", example = "1")
     private Long courseId;
 
+    @Schema(description = "课程名称", example = "Android应用开发")
+    private String courseName;
+
     @Schema(description = "签到任务标题", example = "Android应用开发 今日课堂签到")
     private String title;
 
@@ -38,6 +41,14 @@ public class CheckInTaskResponse {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public String getTitle() {

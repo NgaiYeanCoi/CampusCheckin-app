@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cc_background">
+    android:background="@color/vc_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,12 +12,37 @@
         android:padding="@dimen/space_xl">
 
         <TextView
+            android:id="@+id/textBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="发起签到"
-            android:textColor="@color/cc_text"
-            android:textSize="24sp"
+            android:text="← Teacher"
+            android:textColor="@color/vc_blue"
+            android:textSize="15sp"
             android:textStyle="bold" />
+
+        <TextView
+            style="@style/VercelMonoLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:text="CREATE TASK" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:text="发起签到."
+            android:textColor="@color/vc_ink"
+            android:textSize="38sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:text="选择课程并设置口令，提交后创建真实数据库任务。"
+            android:textColor="@color/vc_body"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,78 +50,123 @@
             android:layout_marginTop="@dimen/space_lg"
             android:background="@drawable/bg_card"
             android:orientation="vertical"
-            android:padding="@dimen/space_lg">
+            android:padding="@dimen/space_xl">
 
             <TextView
+                style="@style/VercelMonoLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="选择课程"
-                android:textColor="@color/cc_text"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:text="COURSE" />
 
             <Spinner
                 android:id="@+id/spinnerCourses"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_height"
-                android:layout_marginTop="@dimen/space_sm" />
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/bg_input_vercel"
+                android:paddingStart="@dimen/space_lg"
+                android:paddingEnd="@dimen/space_lg" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                style="@style/VercelMonoLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:hint="签到标题"
-                app:boxStrokeColor="@color/cc_primary">
+                android:layout_marginTop="@dimen/space_lg"
+                android:text="TITLE" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTitle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/bg_input_vercel"
+                android:paddingStart="@dimen/space_lg"
+                android:paddingEnd="@dimen/space_lg"
+                android:singleLine="true"
+                android:textColor="@color/vc_ink" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                style="@style/VercelMonoLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:hint="课堂口令"
-                app:boxStrokeColor="@color/cc_primary">
+                android:layout_marginTop="@dimen/space_lg"
+                android:text="CODE" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/bg_input_vercel"
+                android:inputType="number"
+                android:paddingStart="@dimen/space_lg"
+                android:paddingEnd="@dimen/space_lg"
+                android:singleLine="true"
+                android:textColor="@color/vc_ink" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:hint="开始时间"
-                app:boxStrokeColor="@color/cc_primary">
+                android:layout_marginTop="@dimen/space_lg"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editStartTime"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:hint="截止时间"
-                app:boxStrokeColor="@color/cc_primary">
+                    <TextView
+                        style="@style/VercelMonoLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="START TIME" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editEndTime"
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/editStartTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_height"
+                        android:layout_marginTop="@dimen/space_sm"
+                        android:background="@drawable/bg_inset_vercel"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:fontFamily="monospace"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/space_md"
+                        android:paddingEnd="@dimen/space_md"
+                        android:textColor="@color/vc_ink"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginStart="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/VercelMonoLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="END TIME" />
+
+                    <TextView
+                        android:id="@+id/editEndTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_height"
+                        android:layout_marginTop="@dimen/space_sm"
+                        android:background="@drawable/bg_inset_vercel"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:fontFamily="monospace"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/space_md"
+                        android:paddingEnd="@dimen/space_md"
+                        android:textColor="@color/vc_ink"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCreate"
@@ -104,16 +174,19 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/space_lg"
                 android:text="创建签到任务"
-                app:backgroundTint="@color/cc_primary"
-                app:cornerRadius="@dimen/radius_md" />
-
-            <TextView
-                android:id="@+id/textStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:textColor="@color/cc_text_muted"
-                android:textSize="13sp" />
+                android:textColor="@color/vc_card"
+                app:backgroundTint="@color/vc_ink"
+                app:cornerRadius="999dp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_card"
+            android:padding="@dimen/space_lg"
+            android:textColor="@color/vc_body"
+            android:textSize="13sp" />
     </LinearLayout>
 </ScrollView>

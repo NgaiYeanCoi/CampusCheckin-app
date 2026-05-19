@@ -2,17 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cc_background"
+    android:background="@color/vc_bg"
     android:orientation="vertical"
     android:padding="@dimen/space_xl">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="← Courses"
+        android:textColor="@color/vc_blue"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        style="@style/VercelMonoLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xl"
+        android:text="ATTENDANCE / CSE101" />
 
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="考勤统计"
-        android:textColor="@color/cc_text"
-        android:textSize="24sp"
+        android:layout_marginTop="@dimen/space_md"
+        android:textColor="@color/vc_ink"
+        android:textSize="38sp"
         android:textStyle="bold" />
 
     <TextView
@@ -20,13 +35,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_sm"
-        android:textColor="@color/cc_text_muted"
-        android:textSize="13sp" />
+        android:textColor="@color/vc_body"
+        android:textSize="14sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerStats"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/space_md"
+        android:layout_marginTop="@dimen/space_lg"
         android:layout_weight="1" />
 </LinearLayout>

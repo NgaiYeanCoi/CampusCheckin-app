@@ -11,46 +11,49 @@
         android:id="@+id/textTaskTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/cc_text"
-        android:textSize="16sp"
+        android:textColor="@color/vc_ink"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_md"
+        android:layout_height="78dp"
+        android:layout_marginTop="@dimen/space_lg"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textTotal"
             style="@style/StatNumber"
-            android:background="@drawable/bg_status_neutral" />
+            android:background="@drawable/bg_card" />
 
         <TextView
             android:id="@+id/textSigned"
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
-            android:background="@drawable/bg_status_success" />
+            android:background="@drawable/bg_card"
+            android:textColor="@color/vc_blue" />
 
         <TextView
             android:id="@+id/textLate"
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
-            android:background="@drawable/bg_status_warning" />
+            android:background="@drawable/bg_card"
+            android:textColor="@color/vc_warning" />
 
         <TextView
             android:id="@+id/textAbsent"
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
-            android:background="@drawable/bg_status_error" />
+            android:background="@drawable/bg_card"
+            android:textColor="@color/vc_warning" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textRate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_md"
-        android:textColor="@color/cc_primary"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="@dimen/space_lg"
+        android:fontFamily="monospace"
+        android:textColor="@color/vc_blue"
+        android:textSize="15sp" />
 </LinearLayout>

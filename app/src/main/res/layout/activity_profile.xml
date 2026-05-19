@@ -3,16 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cc_background"
+    android:background="@color/vc_bg"
     android:orientation="vertical"
     android:padding="@dimen/space_xl">
 
     <TextView
+        style="@style/VercelMonoLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="个人中心"
-        android:textColor="@color/cc_text"
-        android:textSize="24sp"
+        android:layout_marginTop="@dimen/space_lg"
+        android:text="PROFILE" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_sm"
+        android:text="个人中心."
+        android:textColor="@color/vc_ink"
+        android:textSize="34sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -21,31 +29,33 @@
         android:layout_marginTop="@dimen/space_lg"
         android:background="@drawable/bg_card"
         android:orientation="vertical"
-        android:padding="@dimen/space_lg">
+        android:padding="@dimen/space_xl">
 
         <TextView
             android:id="@+id/textDisplayName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/cc_text"
-            android:textSize="22sp"
+            android:textColor="@color/vc_ink"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/cc_text_muted"
-            android:textSize="14sp" />
+            android:layout_marginTop="@dimen/space_md"
+            android:fontFamily="monospace"
+            android:textColor="@color/vc_body"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/textRole"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/cc_text_muted"
-            android:textSize="14sp" />
+            android:fontFamily="monospace"
+            android:textColor="@color/vc_body"
+            android:textSize="13sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLogout"
@@ -53,7 +63,8 @@
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="@dimen/space_lg"
             android:text="退出登录"
-            app:backgroundTint="@color/cc_error"
-            app:cornerRadius="@dimen/radius_md" />
+            android:textColor="@color/vc_card"
+            app:backgroundTint="@color/vc_error"
+            app:cornerRadius="999dp" />
     </LinearLayout>
 </LinearLayout>

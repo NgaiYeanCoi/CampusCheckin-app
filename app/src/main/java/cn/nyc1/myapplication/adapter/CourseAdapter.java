@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -50,7 +51,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.teacher.setText(FormatUtils.safe(course.teacherName));
         holder.location.setText(FormatUtils.safe(course.location));
         holder.time.setText(FormatUtils.courseTime(course.weekDay, course.section, course.startTime, course.endTime));
-        holder.status.setText(FormatUtils.statusText(course.status));
+        holder.status.setText(FormatUtils.safe(course.status));
+        int color = "ACTIVE".equals(course.status)
+                ? ContextCompat.getColor(holder.itemView.getContext(), R.color.vc_blue)
+                : ContextCompat.getColor(holder.itemView.getContext(), R.color.vc_body);
+        holder.status.setTextColor(color);
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onCourseClick(course);

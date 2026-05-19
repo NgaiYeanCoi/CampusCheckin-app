@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cc_background">
+    android:background="@color/vc_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,11 +12,27 @@
         android:padding="@dimen/space_xl">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="← Courses"
+            android:textColor="@color/vc_blue"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/VercelMonoLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:text="COURSE / CSE101" />
+
+        <TextView
             android:id="@+id/textCourseName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/cc_text"
-            android:textSize="26sp"
+            android:layout_marginTop="@dimen/space_md"
+            android:textColor="@color/vc_ink"
+            android:textSize="38sp"
             android:textStyle="bold" />
 
         <TextView
@@ -24,8 +40,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/cc_text_muted"
+            android:textColor="@color/vc_body"
             android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_marginTop="@dimen/space_lg"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card"
+                android:gravity="center"
+                android:text="LOCATION\nA-301"
+                android:textColor="@color/vc_ink"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card"
+                android:gravity="center"
+                android:text="SEMESTER\n2025-2"
+                android:textColor="@color/vc_ink"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,44 +79,64 @@
             android:layout_marginTop="@dimen/space_lg"
             android:background="@drawable/bg_card"
             android:orientation="vertical"
-            android:padding="@dimen/space_lg">
+            android:padding="@dimen/space_xl">
 
-            <TextView
-                android:id="@+id/textTaskTitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="当前签到任务"
-                android:textColor="@color/cc_text"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textTaskStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:background="@drawable/bg_status_neutral"
-                android:padding="@dimen/space_sm"
-                android:textColor="@color/cc_text"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textTaskTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/vc_ink"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textTaskStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_status_success"
+                    android:fontFamily="monospace"
+                    android:paddingStart="@dimen/space_md"
+                    android:paddingTop="@dimen/space_xs"
+                    android:paddingEnd="@dimen/space_md"
+                    android:paddingBottom="@dimen/space_xs"
+                    android:textColor="@color/vc_blue"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textTaskTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_md"
-                android:textColor="@color/cc_text_muted"
-                android:textSize="14sp" />
+                android:layout_marginTop="@dimen/space_xl"
+                android:textColor="@color/vc_body"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:background="@drawable/bg_inset_vercel"
+                android:padding="@dimen/space_lg"
+                android:text="RULE\n有效时间内提交为已签到，超时提交为迟到。"
+                android:textColor="@color/vc_body"
+                android:textSize="13sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCheckIn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/space_lg"
-                android:text="去签到"
-                app:backgroundTint="@color/cc_primary"
-                app:cornerRadius="@dimen/radius_md" />
+                android:text="输入口令签到"
+                android:textColor="@color/vc_card"
+                app:backgroundTint="@color/vc_ink"
+                app:cornerRadius="999dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

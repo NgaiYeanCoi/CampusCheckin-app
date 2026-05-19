@@ -2,11 +2,14 @@ package cn.nyc1.campuscheckin.mapper;
 
 import cn.nyc1.campuscheckin.dto.CheckInTaskResponse;
 import cn.nyc1.campuscheckin.entity.CheckInTask;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface CheckInTaskMapper {
@@ -21,20 +24,78 @@ public interface CheckInTaskMapper {
 
     @Select("""
             SELECT
-              task_id AS taskId,
-              course_id AS courseId,
-              title,
-              start_time AS startTime,
-              end_time AS endTime,
-              status
-            FROM check_in_tasks
-            WHERE course_id = #{courseId}
-              AND status = 'ACTIVE'
-              AND CURRENT_TIMESTAMP BETWEEN start_time AND end_time
-            ORDER BY start_time DESC
+              t.task_id AS taskId,
+              t.course_id AS courseId,
+              c.course_name AS courseName,
+              t.title,
+              t.start_time AS startTime,
+              t.end_time AS endTime,
+              t.status
+            FROM check_in_tasks t
+            JOIN courses c ON c.course_id = t.course_id
+            WHERE t.course_id = #{courseId}
+              AND t.status = 'ACTIVE'
+              AND CURRENT_TIMESTAMP BETWEEN t.start_time AND t.end_time
+            ORDER BY t.start_time DESC
             LIMIT 1
             """)
     CheckInTaskResponse findActiveResponseByCourseId(@Param("courseId") Long courseId);
+
+    @Select("""
+            <script>
+            SELECT
+              t.task_id AS taskId,
+              t.course_id AS courseId,
+              c.course_name AS courseName,
+              t.title,
+              t.start_time AS startTime,
+              t.end_time AS endTime,
+              CASE
+                WHEN t.status = 'CANCELLED' THEN 'CANCELLED'
+                WHEN t.status = 'ENDED' THEN 'ENDED'
+                WHEN CURRENT_TIMESTAMP &lt; t.start_time THEN 'NOT_STARTED'
+                WHEN CURRENT_TIMESTAMP &gt; t.end_time THEN 'ENDED'
+                ELSE 'ACTIVE'
+              END AS status
+            FROM check_in_tasks t
+            JOIN courses c ON c.course_id = t.course_id
+            WHERE c.teacher_id = #{teacherId}
+            <if test="courseId != null">
+              AND t.course_id = #{courseId}
+            </if>
+            ORDER BY t.start_time DESC, t.task_id DESC
+            </script>
+            """)
+    List<CheckInTaskResponse> findResponsesByTeacherId(
+            @Param("teacherId") Long teacherId,
+            @Param("courseId") Long courseId
+    );
+
+    @Select("""
+            SELECT
+              t.task_id AS taskId,
+              t.course_id AS courseId,
+              c.course_name AS courseName,
+              t.title,
+              t.start_time AS startTime,
+              t.end_time AS endTime,
+              CASE
+                WHEN t.status = 'CANCELLED' THEN 'CANCELLED'
+                WHEN t.status = 'ENDED' THEN 'ENDED'
+                WHEN CURRENT_TIMESTAMP < t.start_time THEN 'NOT_STARTED'
+                WHEN CURRENT_TIMESTAMP > t.end_time THEN 'ENDED'
+                ELSE 'ACTIVE'
+              END AS status
+            FROM check_in_tasks t
+            JOIN courses c ON c.course_id = t.course_id
+            WHERE t.task_id = #{taskId}
+              AND c.teacher_id = #{teacherId}
+            LIMIT 1
+            """)
+    CheckInTaskResponse findResponseByIdAndTeacherId(
+            @Param("taskId") Long taskId,
+            @Param("teacherId") Long teacherId
+    );
 
     @Insert("""
             INSERT INTO check_in_tasks (course_id, title, password, start_time, end_time, status, created_by)
@@ -42,4 +103,20 @@ public interface CheckInTaskMapper {
             """)
     @Options(useGeneratedKeys = true, keyProperty = "taskId")
     int insert(CheckInTask task);
+
+    @Update("""
+            UPDATE check_in_tasks t
+            JOIN courses c ON c.course_id = t.course_id
+            SET t.status = 'ENDED',
+                t.end_time = #{endTime}
+            WHERE t.task_id = #{taskId}
+              AND c.teacher_id = #{teacherId}
+              AND t.status IN ('NOT_STARTED', 'ACTIVE')
+              AND t.start_time < #{endTime}
+            """)
+    int endTask(
+            @Param("taskId") Long taskId,
+            @Param("teacherId") Long teacherId,
+            @Param("endTime") LocalDateTime endTime
+    );
 }

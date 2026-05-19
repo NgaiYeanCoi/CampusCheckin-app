@@ -63,16 +63,16 @@ SA-Token 参考项目：
 - `DEPLOY.md`
 - `docs/API.md`
 - `docs/PRD.md`
-- `docs/notion/DESIGN.md`
+- `docs/vercel/DESIGN.md`
 - `docs/schema.sql`
 - `AGENTS.md`
 
 说明：
 
-- 当前仓库中的设计文件路径是 `docs/notion/DESIGN.md`。
-- 如果后续新增或移动为 `docs/DESIGN.md`，则优先阅读 `docs/DESIGN.md`。
+- 当前主视觉设计文件路径是 `docs/vercel/DESIGN.md`。
+- `docs/notion/DESIGN.md` 是历史设计参考，不作为当前 Android 主视觉来源。
 - `docs/PRD.md` 决定功能范围。
-- `docs/notion/DESIGN.md` 决定视觉方向。
+- `docs/vercel/DESIGN.md` 决定视觉方向。
 - `docs/schema.sql` 决定数据库结构和演示数据。
 - `README.md` 决定项目介绍和文档入口。
 - `DEPLOY.md` 决定部署、运行、数据库连接和接口测试方式。
@@ -84,7 +84,7 @@ SA-Token 参考项目：
 
 - 不要自由发挥功能范围。
 - `docs/PRD.md` 决定第一阶段要做什么功能。
-- `docs/notion/DESIGN.md` 决定视觉方向。
+- `docs/vercel/DESIGN.md` 决定当前视觉方向。
 - `AGENTS.md` 决定代码结构和实现规则。
 - 不要把 Android 项目改成 Jetpack Compose。
 - 不要引入复杂架构。
@@ -110,8 +110,10 @@ SA-Token 参考项目：
 - 使用 RecyclerView 展示课程列表、签到记录和考勤列表。
 - 使用 Retrofit + Gson 调用后端 REST API。
 - 网络 baseUrl 必须集中配置，不要散落在 Activity 中。
-- Android 模拟器默认 baseUrl 使用 `http://10.0.2.2:8080/api/v1/`。
-- 后端本机浏览器测试可使用 `http://localhost:8080/api/v1/`。
+- Android 当前实际生效的 baseUrl 配置在 `app/src/main/java/cn/nyc1/myapplication/network/RetrofitClient.java` 的 `RetrofitClient.BASE_URL`。
+- Android 模拟器默认 baseUrl 使用 `http://10.0.2.2:8081/api/v1/`。
+- 后端本机浏览器测试可使用 `http://localhost:8081/api/v1/`。
+- `app/src/main/res/values/strings.xml` 中的 `base_url` 目前只作为同步保留的资源文本，不是当前 Retrofit 运行时配置来源。
 - 登录成功后保存后端返回的 token，并在后续请求中携带。
 - 避免把大量业务数据硬编码在 Activity 中。
 - Activity 负责页面展示、事件处理和页面跳转。
@@ -275,8 +277,8 @@ Drawable 命名规则：
 
 ## UI Rules
 
-- 遵守 `docs/notion/DESIGN.md` 的视觉方向，并适配校园考勤 APP。
-- 使用 clean / card-based / campus style。
+- 遵守 `docs/vercel/DESIGN.md` 的当前视觉方向，并适配校园考勤 APP。
+- 使用 clean / card-based / Vercel style。
 - 不复制任何品牌 Logo、商标或专有插画。
 - 页面应适合 Android 手机屏幕。
 - 课程、签到任务、签到记录、统计信息优先使用卡片式布局。
@@ -347,3 +349,4 @@ Codex 后续实现功能时必须按以下格式输出：
 - 如果无法运行或测试，需要说明原因。
 - 不要省略关键代码。
 - 不要引入 PRD 未确认的功能。
+

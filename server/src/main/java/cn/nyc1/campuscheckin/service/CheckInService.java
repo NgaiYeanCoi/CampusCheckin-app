@@ -46,6 +46,20 @@ public class CheckInService {
         return checkInTaskMapper.findActiveResponseByCourseId(courseId);
     }
 
+    public List<CheckInTaskResponse> teacherTasks(Long courseId) {
+        Teacher teacher = authService.currentTeacher();
+        if (courseId != null) {
+            CourseResponse course = courseMapper.findById(courseId);
+            if (course == null) {
+                throw new IllegalArgumentException("课程不存在");
+            }
+            if (!teacher.getTeacherId().equals(course.getTeacherId())) {
+                throw new IllegalArgumentException("只能查看自己课程的签到任务");
+            }
+        }
+        return checkInTaskMapper.findResponsesByTeacherId(teacher.getTeacherId(), courseId);
+    }
+
     @Transactional
     public CheckInTaskResponse createTask(CreateCheckInTaskRequest request) {
         Teacher teacher = authService.currentTeacher();
@@ -73,11 +87,34 @@ public class CheckInService {
         CheckInTaskResponse response = new CheckInTaskResponse();
         response.setTaskId(task.getTaskId());
         response.setCourseId(task.getCourseId());
+        response.setCourseName(course.getCourseName());
         response.setTitle(task.getTitle());
         response.setStartTime(task.getStartTime());
         response.setEndTime(task.getEndTime());
         response.setStatus(task.getStatus());
         return response;
+    }
+
+    @Transactional
+    public CheckInTaskResponse endTask(Long taskId) {
+        Teacher teacher = authService.currentTeacher();
+        CheckInTaskResponse existing = checkInTaskMapper.findResponseByIdAndTeacherId(taskId, teacher.getTeacherId());
+        if (existing == null) {
+            throw new IllegalArgumentException("签到任务不存在，或无权操作该任务");
+        }
+        if ("ENDED".equals(existing.getStatus())) {
+            return existing;
+        }
+        if (!"ACTIVE".equals(existing.getStatus())) {
+            throw new IllegalArgumentException("只能手动截止进行中的签到任务");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        int updated = checkInTaskMapper.endTask(taskId, teacher.getTeacherId(), now);
+        if (updated == 0) {
+            throw new IllegalArgumentException("签到任务截止失败，请刷新后重试");
+        }
+        return checkInTaskMapper.findResponseByIdAndTeacherId(taskId, teacher.getTeacherId());
     }
 
     @Transactional

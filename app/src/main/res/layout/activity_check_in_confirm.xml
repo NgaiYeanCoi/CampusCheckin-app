@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cc_background"
+    android:background="@color/vc_bg"
     android:fillViewport="true">
 
     <LinearLayout
@@ -13,11 +13,19 @@
         android:padding="@dimen/space_xl">
 
         <TextView
+            style="@style/VercelMonoLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="签到确认"
-            android:textColor="@color/cc_text"
-            android:textSize="24sp"
+            android:layout_marginTop="@dimen/space_lg"
+            android:text="CHECK-IN" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:text="签到确认."
+            android:textColor="@color/vc_ink"
+            android:textSize="38sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -26,14 +34,14 @@
             android:layout_marginTop="@dimen/space_lg"
             android:background="@drawable/bg_card"
             android:orientation="vertical"
-            android:padding="@dimen/space_lg">
+            android:padding="@dimen/space_xl">
 
             <TextView
                 android:id="@+id/textCourseName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/cc_text"
-                android:textSize="18sp"
+                android:textColor="@color/vc_ink"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -41,23 +49,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_sm"
-                android:textColor="@color/cc_text_muted"
-                android:textSize="14sp" />
+                android:fontFamily="monospace"
+                android:textColor="@color/vc_mute"
+                android:textSize="12sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                style="@style/VercelMonoLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_lg"
-                android:hint="课堂口令"
-                app:boxStrokeColor="@color/cc_primary">
+                android:text="CODE" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/bg_input_vercel"
+                android:inputType="number"
+                android:paddingStart="@dimen/space_lg"
+                android:paddingEnd="@dimen/space_lg"
+                android:singleLine="true"
+                android:textColor="@color/vc_ink" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSubmit"
@@ -65,15 +78,16 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/space_lg"
                 android:text="提交签到"
-                app:backgroundTint="@color/cc_primary"
-                app:cornerRadius="@dimen/radius_md" />
+                android:textColor="@color/vc_card"
+                app:backgroundTint="@color/vc_ink"
+                app:cornerRadius="999dp" />
 
             <TextView
                 android:id="@+id/textStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_md"
-                android:textColor="@color/cc_text_muted"
+                android:textColor="@color/vc_body"
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>

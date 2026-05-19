@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -52,6 +53,22 @@ public class TeacherController {
     @Operation(summary = "教师发起签到", description = "教师为自己的课程创建课堂口令签到任务。")
     public ApiResponse<CheckInTaskResponse> createCheckInTask(@Valid @RequestBody CreateCheckInTaskRequest request) {
         return ApiResponse.success(checkInService.createTask(request));
+    }
+
+    @GetMapping("/check-in-tasks")
+    @Operation(summary = "教师签到任务列表", description = "查询当前教师创建的签到任务列表，可按课程筛选。")
+    public ApiResponse<List<CheckInTaskResponse>> checkInTasks(
+            @Parameter(description = "课程 ID，可选", example = "1") @RequestParam(required = false) Long courseId
+    ) {
+        return ApiResponse.success(checkInService.teacherTasks(courseId));
+    }
+
+    @PostMapping("/check-in-tasks/{taskId}/end")
+    @Operation(summary = "手动截止签到任务", description = "教师手动截止自己课程下正在进行的签到任务。")
+    public ApiResponse<CheckInTaskResponse> endCheckInTask(
+            @Parameter(description = "签到任务 ID", example = "1") @PathVariable Long taskId
+    ) {
+        return ApiResponse.success(checkInService.endTask(taskId));
     }
 
     @GetMapping("/courses/{courseId}/attendance-stats")

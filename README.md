@@ -4,6 +4,8 @@ CampusCheckin / 智课签 是一个基于 Android 的校园课程考勤签到 AP
 
 项目采用 Android 原生客户端、Spring Boot 后端和 MySQL 8.0.45 数据库，实现学生签到、教师发起签到和课程维度考勤统计闭环。
 
+当前 Android 前端视觉采用 `docs/vercel/DESIGN.md` 的 Vercel 风格：黑白极简、细边框卡片、黑色 pill 按钮和蓝色状态点缀。
+
 ## 项目定位
 
 - 适合大学课程设计、毕业设计雏形或 Android 实训演示。
@@ -63,7 +65,7 @@ CampusCheckin/
 │  ├─ PRD.md            产品需求文档
 │  ├─ API.md            REST API 接口文档
 │  ├─ schema.sql        MySQL 建表和演示数据
-│  ├─ notion/DESIGN.md  视觉设计参考
+│  ├─ vercel/DESIGN.md  当前视觉设计参考
 │  └─ plans/            计划模式记录
 ├─ AGENTS.md            Codex 协作和代码规则
 ├─ DEPLOY.md            部署和运行说明
@@ -75,11 +77,14 @@ CampusCheckin/
 - 产品需求：[docs/PRD.md](docs/PRD.md)
 - 接口文档：[docs/API.md](docs/API.md)
 - 部署运行：[DEPLOY.md](DEPLOY.md)
+- Android 模拟器后端地址：`http://10.0.2.2:8081/api/v1`
+- 电脑端后端测试地址：`http://localhost:8081/api/v1`
 - 动态 OpenAPI：后端启动后访问 `http://localhost:8081/v3/api-docs`
 - Swagger UI：后端启动后访问 `http://localhost:8081/swagger-ui.html`
 - 数据库脚本：[docs/schema.sql](docs/schema.sql)
 - 协作规则：[AGENTS.md](AGENTS.md)
-- 设计参考：[docs/notion/DESIGN.md](docs/notion/DESIGN.md)
+- 当前设计参考：[docs/vercel/DESIGN.md](docs/vercel/DESIGN.md)
+- 历史设计参考：[docs/notion/DESIGN.md](docs/notion/DESIGN.md)
 
 ## 演示账号
 

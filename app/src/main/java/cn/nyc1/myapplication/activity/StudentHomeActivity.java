@@ -37,10 +37,11 @@ public class StudentHomeActivity extends AppCompatActivity {
         textHomeStatus = findViewById(R.id.textHomeStatus);
         MaterialButton buttonSchedule = findViewById(R.id.buttonSchedule);
         MaterialButton buttonRecords = findViewById(R.id.buttonRecords);
-        MaterialButton buttonProfile = findViewById(R.id.buttonProfile);
+        TextView buttonProfile = findViewById(R.id.buttonProfile);
         RecyclerView recyclerCourses = findViewById(R.id.recyclerCourses);
 
         textGreeting.setText("你好，" + sessionManager.getDisplayName());
+        buttonProfile.setText(profileText());
         recyclerCourses.setLayoutManager(new LinearLayoutManager(this));
         courseAdapter = new CourseAdapter(course -> {
             Intent intent = new Intent(this, CourseDetailActivity.class);
@@ -84,5 +85,13 @@ public class StudentHomeActivity extends AppCompatActivity {
                         textHomeStatus.setText(message + "，当前仅展示离线预览数据");
                     }
                 });
+    }
+
+    private String profileText() {
+        String name = sessionManager.getDisplayName();
+        if (name == null || name.trim().isEmpty()) {
+            return "我";
+        }
+        return name.trim().substring(0, 1);
     }
 }
