@@ -32,3 +32,15 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
   paths-to-match: /api/v1/**
+
+logging:
+  level:
+    root: INFO
+    cn.nyc1.campuscheckin: DEBUG
+    org.springframework.web: INFO
+    org.mybatis: INFO
+  file:
+    name: logs/campus-checkin-server.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n"

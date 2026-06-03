@@ -2,9 +2,11 @@ package cn.nyc1.myapplication.network;
 
 import java.util.List;
 
+import cn.nyc1.myapplication.model.ActiveCheckInTask;
 import cn.nyc1.myapplication.model.AttendanceStats;
 import cn.nyc1.myapplication.model.CheckInRecord;
 import cn.nyc1.myapplication.model.CheckInResult;
+import cn.nyc1.myapplication.model.CheckInTaskDetail;
 import cn.nyc1.myapplication.model.CheckInTask;
 import cn.nyc1.myapplication.model.Course;
 import cn.nyc1.myapplication.model.CreateCheckInTaskRequest;
@@ -35,6 +37,9 @@ public interface ApiService {
     @GET("student/schedule")
     Call<ApiResponse<List<Course>>> getStudentSchedule(@Header("Authorization") String token);
 
+    @GET("student/check-in-tasks/active")
+    Call<ApiResponse<List<ActiveCheckInTask>>> getActiveStudentCheckInTasks(@Header("Authorization") String token);
+
     @POST("student/check-in")
     Call<ApiResponse<CheckInResult>> submitCheckIn(
             @Header("Authorization") String token,
@@ -61,6 +66,12 @@ public interface ApiService {
 
     @POST("teacher/check-in-tasks/{taskId}/end")
     Call<ApiResponse<CheckInTask>> endCheckInTask(
+            @Header("Authorization") String token,
+            @Path("taskId") long taskId
+    );
+
+    @GET("teacher/check-in-tasks/{taskId}/detail")
+    Call<ApiResponse<CheckInTaskDetail>> getTeacherCheckInTaskDetail(
             @Header("Authorization") String token,
             @Path("taskId") long taskId
     );

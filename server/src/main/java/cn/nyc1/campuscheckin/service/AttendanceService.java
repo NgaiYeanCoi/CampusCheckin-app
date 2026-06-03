@@ -1,6 +1,8 @@
 package cn.nyc1.campuscheckin.service;
 
 import cn.nyc1.campuscheckin.dto.AttendanceStatsResponse;
+import cn.nyc1.campuscheckin.dto.CheckInTaskDetailResponse;
+import cn.nyc1.campuscheckin.dto.CheckInTaskSummaryResponse;
 import cn.nyc1.campuscheckin.dto.CourseResponse;
 import cn.nyc1.campuscheckin.entity.Teacher;
 import cn.nyc1.campuscheckin.mapper.AttendanceStatsMapper;
@@ -35,5 +37,26 @@ public class AttendanceService {
             throw new IllegalArgumentException("只能查看自己课程的考勤统计");
         }
         return attendanceStatsMapper.findByCourseId(courseId);
+    }
+
+    public CheckInTaskDetailResponse taskDetail(Long taskId) {
+        Teacher teacher = authService.currentTeacher();
+        CheckInTaskDetailResponse detail = attendanceStatsMapper.findTaskDetailHeader(taskId, teacher.getTeacherId());
+        if (detail == null) {
+            throw new IllegalArgumentException("签到任务不存在，或无权查看该任务");
+        }
+        CheckInTaskSummaryResponse summary = attendanceStatsMapper.findTaskSummary(taskId);
+        if (summary == null) {
+            summary = new CheckInTaskSummaryResponse();
+            summary.setTotalCount(0);
+            summary.setSignedCount(0);
+            summary.setLateCount(0);
+            summary.setUnsignedCount(0);
+            summary.setAbsentCount(0);
+            summary.setExceptionCount(0);
+        }
+        detail.setSummary(summary);
+        detail.setStudents(attendanceStatsMapper.findStudentRecordsByTaskId(taskId));
+        return detail;
     }
 }

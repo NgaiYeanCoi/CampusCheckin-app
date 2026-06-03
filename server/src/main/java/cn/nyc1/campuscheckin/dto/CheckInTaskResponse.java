@@ -27,6 +27,12 @@ public class CheckInTaskResponse {
     @Schema(description = "签到任务状态", example = "ACTIVE", allowableValues = {"NOT_STARTED", "ACTIVE", "ENDED", "CANCELLED"})
     private String status;
 
+    @Schema(description = "应到人数", example = "4")
+    private Integer totalCount;
+
+    @Schema(description = "已提交人数，包含正常签到和迟到", example = "2")
+    private Integer submittedCount;
+
     public Long getTaskId() {
         return taskId;
     }
@@ -81,5 +87,21 @@ public class CheckInTaskResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Integer getSubmittedCount() {
+        return submittedCount;
+    }
+
+    public void setSubmittedCount(Integer submittedCount) {
+        this.submittedCount = submittedCount;
     }
 }

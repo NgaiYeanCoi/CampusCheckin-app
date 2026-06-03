@@ -244,7 +244,57 @@ GET /student/schedule
 
 响应结构同 `GET /student/courses`。Android 端可按 `weekDay` 和 `section` 渲染周课表。
 
-### 6.3 学生提交签到
+### 6.3 学生当前可签到任务
+
+```text
+GET /student/check-in-tasks/active
+```
+
+是否需要 token：是，学生角色
+
+说明：聚合查询当前学生所有已选课程中未截止的签到任务，供学生首页展示。该接口用于避免首页只展示固定课程，教师在 `Java程序设计` 等任意课程下发布签到后，选修该课程的学生都应能看到。
+
+成功响应：
+
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": [
+    {
+      "taskId": 11,
+      "courseId": 2,
+      "courseName": "Java程序设计",
+      "teacherName": "李老师",
+      "title": "Java程序设计 课堂签到",
+      "checkInType": "PASSWORD",
+      "startTime": "2026-05-19 20:22:00",
+      "endTime": "2026-05-19 21:22:00",
+      "taskStatus": "ACTIVE",
+      "recordStatus": "UNSIGNED",
+      "signed": false
+    }
+  ]
+}
+```
+
+字段说明：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| taskId | long | 签到任务 ID |
+| courseId | long | 课程 ID |
+| courseName | string | 课程名称 |
+| teacherName | string | 授课教师 |
+| title | string | 签到任务标题 |
+| checkInType | string | 签到方式，第一阶段固定为 `PASSWORD` |
+| startTime | string | 签到开始时间 |
+| endTime | string | 签到截止时间 |
+| taskStatus | string | 任务状态：`NOT_STARTED`、`ACTIVE`、`ENDED`、`CANCELLED` |
+| recordStatus | string | 当前学生状态：`UNSIGNED`、`SIGNED`、`LATE`、`ABSENT`、`EXCEPTION` |
+| signed | boolean | 当前学生是否已完成有效签到 |
+
+### 6.4 学生提交签到
 
 ```text
 POST /student/check-in
@@ -301,8 +351,10 @@ POST /student/check-in
 | 重复签到 | 400 | 请勿重复签到 |
 | 未加入课程 | 400 | 你未加入该课程 |
 | 签到未开始 | 400 | 签到尚未开始 |
+| 签到已结束 | 400 | 签到已结束 |
+| 签到已取消 | 400 | 签到任务已取消 |
 
-### 6.4 学生签到记录
+### 6.5 学生签到记录
 
 ```text
 GET /student/check-in-records
@@ -450,7 +502,9 @@ GET /teacher/check-in-tasks
       "title": "Android应用开发 临时签到",
       "startTime": "2026-05-17 14:00:00",
       "endTime": "2026-05-17 15:00:00",
-      "status": "ACTIVE"
+      "status": "ACTIVE",
+      "totalCount": 4,
+      "submittedCount": 1
     }
   ]
 }
@@ -495,7 +549,80 @@ POST /teacher/check-in-tasks/{taskId}/end
 | 操作其他教师课程任务 | 400 | 签到任务不存在，或无权操作该任务 |
 | 任务未开始或已结束 | 400 | 只能手动截止进行中的签到任务 |
 
-### 7.5 教师查看课程考勤统计
+### 7.5 教师查看签到任务详情
+
+```text
+GET /teacher/check-in-tasks/{taskId}/detail
+```
+
+是否需要 token：是，教师角色
+
+说明：查看某一次签到任务的实时统计和学生明细。该接口用于教师端任务详情页，对标学习通的签到活动详情体验。
+
+路径参数：
+
+| 参数 | 类型 | 说明 |
+|---|---|---|
+| taskId | long | 签到任务 ID |
+
+成功响应：
+
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "taskId": 4,
+    "courseId": 1,
+    "courseName": "Android应用开发",
+    "title": "Android应用开发 临时签到",
+    "startTime": "2026-05-17 14:00:00",
+    "endTime": "2026-05-17 15:00:00",
+    "status": "ACTIVE",
+    "summary": {
+      "totalCount": 4,
+      "signedCount": 1,
+      "lateCount": 0,
+      "unsignedCount": 3,
+      "absentCount": 0,
+      "exceptionCount": 0,
+      "attendanceRate": 25.00
+    },
+    "students": [
+      {
+        "studentId": 1,
+        "studentNo": "20260001",
+        "studentName": "林一凡",
+        "className": "软件工程2301班",
+        "checkInTime": "2026-05-17 14:30:00",
+        "status": "SIGNED",
+        "remark": "按时签到"
+      },
+      {
+        "studentId": 2,
+        "studentNo": "20260002",
+        "studentName": "陈思雨",
+        "className": "软件工程2301班",
+        "checkInTime": null,
+        "status": "UNSIGNED",
+        "remark": "等待签到"
+      }
+    ]
+  }
+}
+```
+
+状态说明：
+
+| status | 说明 |
+|---|---|
+| UNSIGNED | 任务进行中，学生尚未提交 |
+| SIGNED | 正常签到 |
+| LATE | 迟到 |
+| ABSENT | 任务结束后仍未提交 |
+| EXCEPTION | 异常 |
+
+### 7.6 教师查看课程考勤统计
 
 ```text
 GET /teacher/courses/{courseId}/attendance-stats

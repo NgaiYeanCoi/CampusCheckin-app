@@ -8,4 +8,6 @@ public class CheckInTask {
     public String startTime;
     public String endTime;
     public String status;
+    public Integer totalCount;
+    public Integer submittedCount;
 }

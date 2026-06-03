@@ -54,7 +54,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:campus_checkin}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:}
+    password: ${DB_PASSWORD:10086}
 ```
 
 环境变量说明：
@@ -63,7 +63,7 @@ spring:
 - `DB_PORT`：MySQL 端口，默认 `3306`
 - `DB_NAME`：数据库名，默认 `campus_checkin`
 - `DB_USERNAME`：数据库用户名，默认 `root`
-- `DB_PASSWORD`：数据库密码，默认空字符串
+- `DB_PASSWORD`：数据库密码，当前本地默认 `10086`，建议用环境变量覆盖
 
 不要把真实 MySQL 密码写入代码仓库。建议在 PowerShell 当前窗口中设置：
 
@@ -97,6 +97,32 @@ http://localhost:8081/api/v1
 
 如果你要使用 Spring Boot 默认 8080 端口，需要同步修改 Android 端 `RetrofitClient.BASE_URL`。
 
+后端日志：
+
+- 控制台会输出 Spring Boot 启动日志、业务异常和未处理异常堆栈。
+- 每次 `/api/v1/**` 接口调用都会输出 `API_CALL` 日志，包含请求方法、路径、HTTP 状态、业务 `code/message` 和耗时。
+- 同时写入文件：`logs/campus-checkin-server.log`。
+- 如果接口返回 `服务器内部错误`，优先查看控制台或上述日志文件中的 `未处理的服务器异常`。
+
+示例：
+
+```text
+API_CALL POST /api/v1/auth/login -> http=200 code=0 message=success duration=523ms
+API_CALL GET /api/v1/teacher/check-in-tasks/17/detail -> http=200 code=0 message=success duration=31ms
+```
+
+如果修改了后端代码但 8081 仍表现为旧逻辑，通常是旧进程还在运行。可先查看占用端口的进程：
+
+```powershell
+Get-NetTCPConnection -LocalPort 8081 | Select-Object LocalAddress,LocalPort,State,OwningProcess
+Get-Process -Id <OwningProcess>
+```
+
+停止旧进程后，重新执行：
+
+```powershell
+.\gradlew.bat :server:bootRun --args="--server.port=8081"
+```
 
 ## 5. Android 运行
 
@@ -225,7 +251,18 @@ Invoke-RestMethod `
   -Headers @{ Authorization = $studentToken }
 ```
 
-### 7.6 查询课程当前签到任务
+### 7.6 学生查询当前可签到任务
+
+该接口用于学生首页聚合展示所有已选课程中的当前签到任务。教师在 Java、Android 等任意课程下发布签到后，选修该课程的学生都应能在这里查到。
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:8081/api/v1/student/check-in-tasks/active" `
+  -Headers @{ Authorization = $studentToken }
+```
+
+### 7.7 查询课程当前签到任务
 
 ```powershell
 Invoke-RestMethod `
@@ -234,7 +271,7 @@ Invoke-RestMethod `
   -Headers @{ Authorization = $studentToken }
 ```
 
-### 7.7 学生提交签到
+### 7.8 学生提交签到
 
 如果 `docs/schema.sql` 中的演示数据没有被改动，课程 1 当前有效签到任务口令是 `246810`。
 
@@ -249,7 +286,7 @@ Invoke-RestMethod `
 
 重复执行会返回“请勿重复签到”，这是正常业务规则。
 
-### 7.8 学生查询签到记录
+### 7.9 学生查询签到记录
 
 ```powershell
 Invoke-RestMethod `
@@ -258,7 +295,7 @@ Invoke-RestMethod `
   -Headers @{ Authorization = $studentToken }
 ```
 
-### 7.9 教师查询课程
+### 7.10 教师查询课程
 
 ```powershell
 Invoke-RestMethod `
@@ -267,7 +304,7 @@ Invoke-RestMethod `
   -Headers @{ Authorization = $teacherToken }
 ```
 
-### 7.10 教师发起签到
+### 7.11 教师发起签到
 
 ```powershell
 $createdTask = Invoke-RestMethod `
@@ -280,7 +317,7 @@ $createdTask = Invoke-RestMethod `
 $createdTask.data.taskId
 ```
 
-### 7.11 教师查询签到任务列表
+### 7.12 教师查询签到任务列表
 
 ```powershell
 Invoke-RestMethod `
@@ -298,7 +335,7 @@ Invoke-RestMethod `
   -Headers @{ Authorization = $teacherToken }
 ```
 
-### 7.12 教师手动截止签到任务
+### 7.13 教师手动截止签到任务
 
 只允许截止当前教师自己课程下正在进行的签到任务。
 
@@ -311,7 +348,20 @@ Invoke-RestMethod `
   -Headers @{ Authorization = $teacherToken }
 ```
 
-### 7.13 教师查看考勤统计
+### 7.14 教师查看签到任务详情
+
+用于查看某一次签到的实时统计和学生名单。
+
+```powershell
+$taskId = $createdTask.data.taskId
+
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:8081/api/v1/teacher/check-in-tasks/$taskId/detail" `
+  -Headers @{ Authorization = $teacherToken }
+```
+
+### 7.15 教师查看考勤统计
 
 ```powershell
 Invoke-RestMethod `
@@ -329,6 +379,7 @@ POST /api/v1/auth/logout
 
 GET  /api/v1/student/courses
 GET  /api/v1/student/schedule
+GET  /api/v1/student/check-in-tasks/active
 POST /api/v1/student/check-in
 GET  /api/v1/student/check-in-records
 
@@ -336,6 +387,7 @@ GET  /api/v1/teacher/courses
 POST /api/v1/teacher/check-in-tasks
 GET  /api/v1/teacher/check-in-tasks
 POST /api/v1/teacher/check-in-tasks/{taskId}/end
+GET  /api/v1/teacher/check-in-tasks/{taskId}/detail
 GET  /api/v1/teacher/courses/{courseId}/attendance-stats
 
 GET  /api/v1/courses/{courseId}

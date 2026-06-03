@@ -87,10 +87,11 @@
             android:text="LIVE CHECK-IN" />
 
         <TextView
+            android:id="@+id/textActiveTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg"
-            android:text="Android应用开发"
+            android:text="当前签到任务"
             android:textColor="@color/vc_card"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -102,6 +103,12 @@
             android:layout_marginTop="@dimen/space_md"
             android:textColor="@color/vc_mute"
             android:textSize="13sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerActiveTasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonRecords"

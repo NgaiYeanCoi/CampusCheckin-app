@@ -24,28 +24,32 @@
         <TextView
             android:id="@+id/textTotal"
             style="@style/StatNumber"
-            android:background="@drawable/bg_card" />
+            android:background="@drawable/bg_card"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/textSigned"
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
             android:background="@drawable/bg_card"
-            android:textColor="@color/vc_blue" />
+            android:textColor="@color/vc_blue"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/textLate"
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
             android:background="@drawable/bg_card"
-            android:textColor="@color/vc_warning" />
+            android:textColor="@color/vc_warning"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/textAbsent"
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
             android:background="@drawable/bg_card"
-            android:textColor="@color/vc_warning" />
+            android:textColor="@color/vc_error"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <TextView

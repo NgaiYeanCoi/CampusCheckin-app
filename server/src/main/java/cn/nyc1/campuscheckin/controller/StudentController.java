@@ -2,6 +2,7 @@ package cn.nyc1.campuscheckin.controller;
 
 import cn.nyc1.campuscheckin.common.ApiResponse;
 import cn.nyc1.campuscheckin.config.OpenApiConfig;
+import cn.nyc1.campuscheckin.dto.ActiveCheckInTaskResponse;
 import cn.nyc1.campuscheckin.dto.CheckInRecordResponse;
 import cn.nyc1.campuscheckin.dto.CheckInResultResponse;
 import cn.nyc1.campuscheckin.dto.CourseResponse;
@@ -43,6 +44,15 @@ public class StudentController {
     @Operation(summary = "学生周课表", description = "查询当前学生周课表数据，Android 端可按 weekDay 和 section 渲染。")
     public ApiResponse<List<CourseResponse>> schedule() {
         return ApiResponse.success(courseService.studentSchedule());
+    }
+
+    @GetMapping("/check-in-tasks/active")
+    @Operation(
+            summary = "学生当前可签到任务",
+            description = "聚合查询当前学生所有已选课程中未截止的签到任务，用于学生首页展示，避免只展示固定课程。"
+    )
+    public ApiResponse<List<ActiveCheckInTaskResponse>> activeCheckInTasks() {
+        return ApiResponse.success(checkInService.activeTasksForCurrentStudent());
     }
 
     @PostMapping("/check-in")

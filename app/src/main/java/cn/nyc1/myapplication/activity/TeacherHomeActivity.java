@@ -49,7 +49,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         buttonProfile.setText(profileText());
 
         recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
-        taskAdapter = new CheckInTaskAdapter(this::confirmEndTask);
+        taskAdapter = new CheckInTaskAdapter(this::confirmEndTask, this::openTaskDetail);
         recyclerTasks.setAdapter(taskAdapter);
 
         recyclerCourses.setLayoutManager(new LinearLayoutManager(this));
@@ -123,6 +123,15 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 .setNegativeButton("取消", null)
                 .setPositiveButton("截止", (dialog, which) -> endTask(task.taskId))
                 .show();
+    }
+
+    private void openTaskDetail(CheckInTask task) {
+        if (task == null || task.taskId == null) {
+            return;
+        }
+        Intent intent = new Intent(this, CheckInTaskDetailActivity.class);
+        intent.putExtra("taskId", task.taskId);
+        startActivity(intent);
     }
 
     private void endTask(long taskId) {

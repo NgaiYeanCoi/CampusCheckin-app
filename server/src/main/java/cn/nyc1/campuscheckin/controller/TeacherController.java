@@ -3,6 +3,7 @@ package cn.nyc1.campuscheckin.controller;
 import cn.nyc1.campuscheckin.common.ApiResponse;
 import cn.nyc1.campuscheckin.config.OpenApiConfig;
 import cn.nyc1.campuscheckin.dto.AttendanceStatsResponse;
+import cn.nyc1.campuscheckin.dto.CheckInTaskDetailResponse;
 import cn.nyc1.campuscheckin.dto.CheckInTaskResponse;
 import cn.nyc1.campuscheckin.dto.CourseResponse;
 import cn.nyc1.campuscheckin.dto.CreateCheckInTaskRequest;
@@ -69,6 +70,14 @@ public class TeacherController {
             @Parameter(description = "签到任务 ID", example = "1") @PathVariable Long taskId
     ) {
         return ApiResponse.success(checkInService.endTask(taskId));
+    }
+
+    @GetMapping("/check-in-tasks/{taskId}/detail")
+    @Operation(summary = "签到任务详情", description = "教师查看某一次签到任务的统计汇总和学生签到明细。")
+    public ApiResponse<CheckInTaskDetailResponse> checkInTaskDetail(
+            @Parameter(description = "签到任务 ID", example = "1") @PathVariable Long taskId
+    ) {
+        return ApiResponse.success(attendanceService.taskDetail(taskId));
     }
 
     @GetMapping("/courses/{courseId}/attendance-stats")

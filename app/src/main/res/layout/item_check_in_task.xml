@@ -49,6 +49,24 @@
         android:textColor="@color/vc_mute"
         android:textSize="12sp" />
 
+    <TextView
+        android:id="@+id/textTaskSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_sm"
+        android:textColor="@color/vc_body"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/textTaskHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xs"
+        android:fontFamily="monospace"
+        android:text="点击查看学生签到明细"
+        android:textColor="@color/vc_blue"
+        android:textSize="12sp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonEndTask"
         android:layout_width="match_parent"

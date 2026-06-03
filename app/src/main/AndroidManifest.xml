@@ -16,6 +16,7 @@
         android:theme="@style/Theme.CampusCheckin"
         tools:targetApi="31">
         <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.CheckInTaskDetailActivity" />
         <activity android:name=".activity.AttendanceStatsActivity" />
         <activity android:name=".activity.CreateCheckInActivity" />
         <activity android:name=".activity.TeacherHomeActivity" />

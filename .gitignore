@@ -16,3 +16,4 @@ local.properties
 .android-user-home/
 hs_err_pid*.log
 replay_pid*.log
+logs/

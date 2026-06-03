@@ -38,11 +38,11 @@ public class AttendanceStatsAdapter extends RecyclerView.Adapter<AttendanceStats
     public void onBindViewHolder(@NonNull StatsViewHolder holder, int position) {
         AttendanceStats item = stats.get(position);
         holder.taskTitle.setText(FormatUtils.safe(item.taskTitle));
-        holder.total.setText(String.valueOf(number(item.totalCount)));
-        holder.signed.setText(String.valueOf(number(item.signedCount)));
-        holder.late.setText(String.valueOf(number(item.lateCount)));
-        holder.absent.setText(String.valueOf(number(item.absentCount)));
-        holder.rate.setText(String.format(Locale.CHINA, "%.2f%%", item.attendanceRate == null ? 0.0 : item.attendanceRate));
+        holder.total.setText(number(item.totalCount) + "\n应到");
+        holder.signed.setText(number(item.signedCount) + "\n已签");
+        holder.late.setText(number(item.lateCount) + "\n迟到");
+        holder.absent.setText(number(item.absentCount) + "\n缺勤");
+        holder.rate.setText(String.format(Locale.CHINA, "出勤率 %.2f%%", item.attendanceRate == null ? 0.0 : item.attendanceRate));
     }
 
     @Override

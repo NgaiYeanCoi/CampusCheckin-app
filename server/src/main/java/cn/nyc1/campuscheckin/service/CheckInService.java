@@ -1,5 +1,6 @@
 package cn.nyc1.campuscheckin.service;
 
+import cn.nyc1.campuscheckin.dto.ActiveCheckInTaskResponse;
 import cn.nyc1.campuscheckin.dto.CheckInRecordResponse;
 import cn.nyc1.campuscheckin.dto.CheckInResultResponse;
 import cn.nyc1.campuscheckin.dto.CheckInTaskResponse;
@@ -44,6 +45,11 @@ public class CheckInService {
             throw new IllegalArgumentException("课程不存在");
         }
         return checkInTaskMapper.findActiveResponseByCourseId(courseId);
+    }
+
+    public List<ActiveCheckInTaskResponse> activeTasksForCurrentStudent() {
+        Student student = authService.currentStudent();
+        return checkInTaskMapper.findActiveResponsesByStudentId(student.getStudentId());
     }
 
     public List<CheckInTaskResponse> teacherTasks(Long courseId) {
@@ -127,6 +133,12 @@ public class CheckInService {
         if (!task.getPassword().equals(request.getPassword())) {
             throw new IllegalArgumentException("签到口令错误");
         }
+        if ("CANCELLED".equals(task.getStatus())) {
+            throw new IllegalArgumentException("签到任务已取消");
+        }
+        if ("ENDED".equals(task.getStatus())) {
+            throw new IllegalArgumentException("签到已结束");
+        }
         if (courseMapper.countActiveEnrollment(task.getCourseId(), student.getStudentId()) == 0) {
             throw new IllegalArgumentException("你未加入该课程");
         }
@@ -139,8 +151,11 @@ public class CheckInService {
         if (now.isBefore(task.getStartTime())) {
             throw new IllegalArgumentException("签到尚未开始");
         }
+        if (now.isAfter(task.getEndTime())) {
+            throw new IllegalArgumentException("签到已结束");
+        }
 
-        String status = now.isAfter(task.getEndTime()) ? "LATE" : "SIGNED";
+        String status = "SIGNED";
         CheckInRecord record = new CheckInRecord();
         record.setTaskId(task.getTaskId());
         record.setCourseId(task.getCourseId());
