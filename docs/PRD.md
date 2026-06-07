@@ -6,14 +6,14 @@
 |---|---|
 | 产品名称 | CampusCheckin / 智课签 |
 | 项目主题 | 基于 Android 的校园课程考勤签到 APP 设计与实现 |
-| 文档版本 | v1.2 |
+| 文档版本 | v1.3 |
 | 文档状态 | 第一阶段开发与答辩版本 |
 | 适用阶段 | 课程设计 / Android 实训 / 毕业设计原型 |
 | 当前主视觉 | `docs/vercel/DESIGN.md` |
 | 默认后端端口 | `8081` |
 | Android 模拟器 API 地址 | `http://10.0.2.2:8081/api/v1/` |
 | 后端本机 API 地址 | `http://localhost:8081/api/v1/` |
-| 最近更新 | 2026-05-19 |
+| 最近更新 | 2026-06-07 |
 
 **版本记录**
 
@@ -22,6 +22,7 @@
 | v1.0 | 2026-05-17 | 明确 Android + Spring Boot + MySQL 真实数据库方案 |
 | v1.1 | 2026-05-18 | 补充 Vercel 风格、Swagger / OpenAPI、教师手动截止 |
 | v1.2 | 2026-05-19 | 按规范 PRD 扩写，加入流程图、用户故事、接口矩阵和验收用例 |
+| v1.3 | 2026-06-07 | 统一接口响应体 `code` 规则，明确 `200` 表示请求成功 |
 
 **PRD 写法参考**
 
@@ -187,6 +188,7 @@ CampusCheckin / 智课签 是一个基于 Android 的校园课程考勤签到 AP
 | FR-AUTH-003 | 退出登录 | P1 | 清除本地 session 并回到登录页 |
 | FR-SYS-001 | 统一响应结构 | P0 | `ApiResponse { code, message, data }` |
 | FR-SYS-002 | 动态 OpenAPI | P1 | 支持 Swagger UI 和 Apifox 导入 |
+| FR-SYS-003 | 统一业务成功码 | P0 | 响应体 `code=200` 表示请求成功，非 `200` 表示失败或业务规则不满足 |
 
 学习通对标后的签到产品原则：
 
@@ -622,7 +624,7 @@ flowchart TD
 - Android 端按 Activity、Adapter、Model、Network、Data 等包分层。
 - Spring Boot 后端按 Controller、Service、Mapper、Entity、DTO 等包分层。
 - SQL 表结构清晰，字段命名统一。
-- API 返回结构统一，便于 Android 端处理成功和失败状态。
+- API 返回结构统一，响应体 `code=200` 表示请求成功，非 `200` 表示请求失败或业务规则不满足，便于 Android 端处理成功和失败状态。
 - 所有接口变更需要同步 `docs/API.md` 和动态 OpenAPI 注解。
 
 页面一致性：
@@ -697,6 +699,8 @@ Android 客户端采用：
 
 - REST API 统一前缀为 `/api/v1`。
 - API 统一返回 `ApiResponse { code, message, data }`。
+- API 响应体业务状态码统一使用 `code=200` 表示请求成功；非 `200` 表示请求失败、参数错误、未登录、无权限或业务规则不满足。
+- Android 端业务判断应以响应体 `code` 为准，请求成功统一判断 `code == 200`，不得依赖中文 `message`。
 - Android 模拟器默认 baseUrl 为 `http://10.0.2.2:8081/api/v1/`。
 - 后端本机浏览器、PowerShell、Apifox 测试可使用 `http://localhost:8081/api/v1/`。
 - 动态 OpenAPI JSON 默认地址为 `http://localhost:8081/v3/api-docs`。
