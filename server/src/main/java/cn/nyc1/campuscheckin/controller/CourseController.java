@@ -42,6 +42,7 @@ public class CourseController {
     public ApiResponse<CheckInTaskResponse> activeCheckInTask(
             @Parameter(description = "课程 ID", example = "1") @PathVariable Long courseId
     ) {
+        courseService.requireAccessibleCourse(courseId);
         return ApiResponse.success(checkInService.activeTask(courseId));
     }
 }

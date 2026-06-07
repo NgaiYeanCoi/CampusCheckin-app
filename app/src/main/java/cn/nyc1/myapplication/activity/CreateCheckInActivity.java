@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.nyc1.myapplication.R;
-import cn.nyc1.myapplication.data.PreviewData;
 import cn.nyc1.myapplication.model.CheckInTask;
 import cn.nyc1.myapplication.model.Course;
 import cn.nyc1.myapplication.model.CreateCheckInTaskRequest;
@@ -65,6 +64,7 @@ public class CreateCheckInActivity extends AppCompatActivity {
         textBack.setOnClickListener(v -> finish());
         editStartTime.setOnClickListener(v -> showDateTimePicker(true));
         editEndTime.setOnClickListener(v -> showDateTimePicker(false));
+        buttonCreate.setEnabled(false);
         buttonCreate.setOnClickListener(v -> createTask());
         loadCourses();
     }
@@ -76,13 +76,17 @@ public class CreateCheckInActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(List<Course> data) {
                         setCourses(data);
-                        textStatus.setText("提交后写入 MySQL 的 check_in_tasks 表。");
+                        buttonCreate.setEnabled(!courses.isEmpty());
+                        textStatus.setText(courses.isEmpty()
+                                ? "暂无可发起签到的授课课程"
+                                : "提交后写入 MySQL 的 check_in_tasks 表。");
                     }
 
                     @Override
                     public void onError(String message) {
-                        setCourses(PreviewData.courses());
-                        textStatus.setText(message + "，当前课程列表为离线预览，创建仍需后端可用。");
+                        setCourses(null);
+                        buttonCreate.setEnabled(false);
+                        textStatus.setText(message + "，无法加载真实课程，暂不能创建签到任务。");
                     }
                 });
     }

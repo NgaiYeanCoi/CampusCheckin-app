@@ -16,7 +16,6 @@ import java.util.List;
 import cn.nyc1.myapplication.R;
 import cn.nyc1.myapplication.adapter.CheckInTaskAdapter;
 import cn.nyc1.myapplication.adapter.CourseAdapter;
-import cn.nyc1.myapplication.data.PreviewData;
 import cn.nyc1.myapplication.model.CheckInTask;
 import cn.nyc1.myapplication.model.Course;
 import cn.nyc1.myapplication.network.RetrofitClient;
@@ -91,8 +90,8 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String message) {
-                        courseAdapter.submitList(PreviewData.courses());
-                        textHomeStatus.setText(message + "，当前仅展示离线预览数据");
+                        courseAdapter.submitList(null);
+                        textHomeStatus.setText(message + "，无法加载真实授课课程");
                     }
                 });
     }
@@ -107,8 +106,8 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String message) {
-                        taskAdapter.submitList(PreviewData.tasks());
-                        textHomeStatus.setText(message + "，任务列表当前仅展示离线预览数据");
+                        taskAdapter.submitList(null);
+                        textHomeStatus.setText(message + "，无法加载真实签到任务");
                     }
                 });
     }

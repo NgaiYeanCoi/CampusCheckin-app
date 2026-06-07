@@ -11,7 +11,6 @@ import java.util.List;
 
 import cn.nyc1.myapplication.R;
 import cn.nyc1.myapplication.adapter.AttendanceStatsAdapter;
-import cn.nyc1.myapplication.data.PreviewData;
 import cn.nyc1.myapplication.model.AttendanceStats;
 import cn.nyc1.myapplication.network.RetrofitClient;
 import cn.nyc1.myapplication.network.SimpleCallback;
@@ -62,8 +61,8 @@ public class AttendanceStatsActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String message) {
-                        adapter.submitList(PreviewData.stats());
-                        textStatus.setText(message + "，当前仅展示离线预览数据");
+                        adapter.submitList(null);
+                        textStatus.setText(message + "，无法加载真实考勤统计");
                     }
                 });
     }

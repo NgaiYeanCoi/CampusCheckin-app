@@ -1,6 +1,8 @@
 package cn.nyc1.campuscheckin.service;
 
+import cn.nyc1.campuscheckin.common.RoleConstants;
 import cn.nyc1.campuscheckin.dto.CourseResponse;
+import cn.nyc1.campuscheckin.dto.LoginResponse;
 import cn.nyc1.campuscheckin.entity.Student;
 import cn.nyc1.campuscheckin.entity.Teacher;
 import cn.nyc1.campuscheckin.mapper.CourseMapper;
@@ -33,10 +35,30 @@ public class CourseService {
     }
 
     public CourseResponse detail(Long courseId) {
+        return requireAccessibleCourse(courseId);
+    }
+
+    public CourseResponse requireAccessibleCourse(Long courseId) {
         CourseResponse course = courseMapper.findById(courseId);
         if (course == null) {
             throw new IllegalArgumentException("课程不存在");
         }
-        return course;
+        LoginResponse currentUser = authService.currentUser();
+        if (RoleConstants.STUDENT.equals(currentUser.getRole())) {
+            Long studentId = currentUser.getProfileId();
+            if (studentId == null || courseMapper.countActiveEnrollment(courseId, studentId) == 0) {
+                throw new IllegalArgumentException("你未加入该课程");
+            }
+            return course;
+        }
+        if (RoleConstants.TEACHER.equals(currentUser.getRole())) {
+            Long teacherId = currentUser.getProfileId();
+            if (teacherId == null || !teacherId.equals(course.getTeacherId())) {
+                throw new IllegalArgumentException("只能查看自己负责的课程");
+            }
+            return course;
+        }
+        throw new IllegalArgumentException("当前角色无权查看该课程");
     }
+
 }

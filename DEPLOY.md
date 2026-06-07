@@ -107,8 +107,8 @@ http://localhost:8081/api/v1
 示例：
 
 ```text
-API_CALL POST /api/v1/auth/login -> http=200 code=0 message=success duration=523ms
-API_CALL GET /api/v1/teacher/check-in-tasks/17/detail -> http=200 code=0 message=success duration=31ms
+API_CALL POST /api/v1/auth/login -> http=200 code=200 message=success duration=523ms
+API_CALL GET /api/v1/teacher/check-in-tasks/17/detail -> http=200 code=200 message=success duration=31ms
 ```
 
 如果修改了后端代码但 8081 仍表现为旧逻辑，通常是旧进程还在运行。可先查看占用端口的进程：

@@ -4,8 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "统一 API 响应")
 public class ApiResponse<T> {
+    public static final int SUCCESS_CODE = 200;
 
-    @Schema(description = "业务状态码，0 表示成功", example = "0")
+    @Schema(description = "业务状态码，200 表示成功", example = "200")
     private int code;
 
     @Schema(description = "提示信息", example = "success")
@@ -24,7 +25,7 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(0, "success", data);
+        return new ApiResponse<>(SUCCESS_CODE, "success", data);
     }
 
     public static <T> ApiResponse<T> error(int code, String message) {

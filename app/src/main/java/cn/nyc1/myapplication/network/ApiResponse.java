@@ -6,6 +6,6 @@ public class ApiResponse<T> {
     public T data;
 
     public boolean isSuccess() {
-        return code == 0;
+        return code == 200;
     }
 }

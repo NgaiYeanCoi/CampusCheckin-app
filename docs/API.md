@@ -46,7 +46,7 @@ Content-Type: application/json
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {}
 }
@@ -56,7 +56,7 @@ Content-Type: application/json
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
-| code | int | 业务状态码，0 表示成功 |
+| code | int | 业务状态码，200 表示成功 |
 | message | string | 提示信息 |
 | data | object / array / null | 响应数据 |
 
@@ -143,7 +143,7 @@ POST /auth/login
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {
     "token": "token-value",
@@ -168,7 +168,7 @@ GET /auth/me
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {
     "token": "token-value",
@@ -193,7 +193,7 @@ POST /auth/logout
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": null
 }
@@ -213,7 +213,7 @@ GET /student/courses
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": [
     {
@@ -258,7 +258,7 @@ GET /student/check-in-tasks/active
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": [
     {
@@ -322,7 +322,7 @@ POST /student/check-in
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {
     "recordId": 10,
@@ -366,7 +366,7 @@ GET /student/check-in-records
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": [
     {
@@ -397,7 +397,7 @@ GET /teacher/courses
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": [
     {
@@ -452,7 +452,7 @@ POST /teacher/check-in-tasks
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
     "data": {
       "taskId": 4,
@@ -492,7 +492,7 @@ GET /teacher/check-in-tasks
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": [
     {
@@ -528,7 +528,7 @@ POST /teacher/check-in-tasks/{taskId}/end
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {
     "taskId": 4,
@@ -569,7 +569,7 @@ GET /teacher/check-in-tasks/{taskId}/detail
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {
     "taskId": 4,
@@ -640,7 +640,7 @@ GET /teacher/courses/{courseId}/attendance-stats
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": [
     {
@@ -668,13 +668,13 @@ GET /teacher/courses/{courseId}/attendance-stats
 GET /courses/{courseId}
 ```
 
-是否需要 token：是
+是否需要 token：是。学生只能查询自己已选课程，教师只能查询自己负责的课程。
 
 成功响应：
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {
     "courseId": 1,
@@ -699,20 +699,20 @@ GET /courses/{courseId}
 GET /courses/{courseId}/active-check-in-task
 ```
 
-是否需要 token：是
+是否需要 token：是。学生只能查询自己已选课程的当前签到任务，教师只能查询自己负责课程的当前签到任务。
 
 成功响应：
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
-    "data": {
-      "taskId": 1,
-      "courseId": 1,
-      "courseName": "Android应用开发",
-      "title": "Android应用开发 今日课堂签到",
-      "startTime": "2026-05-17 14:00:00",
+  "data": {
+    "taskId": 1,
+    "courseId": 1,
+    "courseName": "Android应用开发",
+    "title": "Android应用开发 今日课堂签到",
+    "startTime": "2026-05-17 14:00:00",
     "endTime": "2026-05-17 15:00:00",
     "status": "ACTIVE"
   }
@@ -723,7 +723,7 @@ GET /courses/{courseId}/active-check-in-task
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": null
 }
@@ -762,4 +762,3 @@ GET /courses/{courseId}/active-check-in-task
 | LATE | 迟到 |
 | ABSENT | 缺勤 |
 | EXCEPTION | 异常 |
-
