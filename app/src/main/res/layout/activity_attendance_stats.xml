@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_marginTop="@dimen/space_lg"
-        android:text="导出 CSV"
+        android:text="下载 CSV"
         android:textColor="@color/notion_card"
         app:backgroundTint="@color/cc_primary"
         app:cornerRadius="@dimen/radius_md" />

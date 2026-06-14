@@ -418,6 +418,11 @@ Invoke-RestMethod `
 
 ### 7.17 教师导出考勤统计 CSV
 
+Android 教师端在考勤统计页点击“下载 CSV”会调用同一接口：
+
+- Android 10 及以上：保存到系统 `Downloads/CampusCheckin/attendance-course-{courseId}.csv`。
+- Android 9 及以下：保存到 app 专属 Documents 目录，不申请外部存储权限。
+
 ```powershell
 Invoke-WebRequest `
   -Method Get `

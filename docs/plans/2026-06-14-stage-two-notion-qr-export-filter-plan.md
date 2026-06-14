@@ -18,7 +18,7 @@
 ## 计划改动
 
 - 后端：扩展 `check_in_tasks` 的 `check_in_type`、`qr_token` 字段，更新 DTO、Mapper、Service 和 Controller。
-- Android：新增扫码页、二维码生成展示、创建签到类型选择、记录筛选控件、CSV 导出分享入口。
+- Android：新增扫码页、二维码生成展示、创建签到类型选择、记录筛选控件、CSV 下载入口。
 - 文档：同步 `docs/schema.sql`、`docs/API.md`、`DEPLOY.md`、`README.md`、`docs/PRD.md`、`AGENTS.md`。
 
 ## 涉及文件

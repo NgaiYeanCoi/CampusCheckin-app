@@ -1,13 +1,15 @@
 package cn.nyc1.myapplication.activity;
 
-import android.content.Intent;
+import android.content.ContentValues;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +18,7 @@ import com.google.android.material.button.MaterialButton;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -90,7 +93,7 @@ public class AttendanceStatsActivity extends AppCompatActivity {
             textStatus.setText("课程参数异常，无法导出");
             return;
         }
-        textStatus.setText("正在导出 CSV...");
+        textStatus.setText("正在下载 CSV...");
         RetrofitClient.api().exportAttendanceStats(sessionManager.authHeader(), courseId, null)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -100,11 +103,10 @@ public class AttendanceStatsActivity extends AppCompatActivity {
                             return;
                         }
                         try {
-                            File file = saveCsv(response.body().string());
-                            shareCsv(file);
-                            textStatus.setText("CSV 已生成：" + file.getName());
+                            String location = downloadCsv(response.body().string());
+                            textStatus.setText("CSV 已下载：" + location);
                         } catch (IOException exception) {
-                            textStatus.setText("CSV 保存失败");
+                            textStatus.setText("CSV 下载失败");
                         }
                     }
 
@@ -115,24 +117,35 @@ public class AttendanceStatsActivity extends AppCompatActivity {
                 });
     }
 
-    private File saveCsv(String csv) throws IOException {
-        File dir = new File(getCacheDir(), "exports");
+    private String downloadCsv(String csv) throws IOException {
+        String fileName = "attendance-course-" + courseId + ".csv";
+        byte[] bytes = csv.getBytes(StandardCharsets.UTF_8);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
+            values.put(MediaStore.Downloads.MIME_TYPE, "text/csv");
+            values.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/CampusCheckin");
+            Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+            if (uri == null) {
+                throw new IOException("Cannot create download file");
+            }
+            try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
+                if (outputStream == null) {
+                    throw new IOException("Cannot open download file");
+                }
+                outputStream.write(bytes);
+            }
+            return "Downloads/CampusCheckin/" + fileName;
+        }
+
+        File dir = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "exports");
         if (!dir.exists() && !dir.mkdirs()) {
             throw new IOException("Cannot create export directory");
         }
-        File file = new File(dir, "attendance-course-" + courseId + ".csv");
+        File file = new File(dir, fileName);
         try (FileOutputStream outputStream = new FileOutputStream(file)) {
-            outputStream.write(csv.getBytes(StandardCharsets.UTF_8));
+            outputStream.write(bytes);
         }
-        return file;
-    }
-
-    private void shareCsv(File file) {
-        Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", file);
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/csv");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(intent, "分享考勤 CSV"));
+        return file.getAbsolutePath();
     }
 }
