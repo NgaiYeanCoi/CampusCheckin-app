@@ -11,7 +11,7 @@
         android:id="@+id/textTaskTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/vc_ink"
+        android:textColor="@color/notion_ink"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
             android:background="@drawable/bg_card"
-            android:textColor="@color/vc_blue"
+            android:textColor="@color/notion_purple"
             android:textSize="13sp" />
 
         <TextView
@@ -40,7 +40,7 @@
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
             android:background="@drawable/bg_card"
-            android:textColor="@color/vc_warning"
+            android:textColor="@color/notion_warning"
             android:textSize="13sp" />
 
         <TextView
@@ -48,7 +48,7 @@
             style="@style/StatNumber"
             android:layout_marginStart="@dimen/space_sm"
             android:background="@drawable/bg_card"
-            android:textColor="@color/vc_error"
+            android:textColor="@color/notion_error"
             android:textSize="13sp" />
     </LinearLayout>
 
@@ -58,6 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_lg"
         android:fontFamily="monospace"
-        android:textColor="@color/vc_blue"
+        android:textColor="@color/notion_purple"
         android:textSize="15sp" />
 </LinearLayout>

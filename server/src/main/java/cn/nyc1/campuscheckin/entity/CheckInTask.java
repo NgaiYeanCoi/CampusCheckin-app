@@ -7,7 +7,9 @@ public class CheckInTask {
     private Long taskId;
     private Long courseId;
     private String title;
+    private String checkInType;
     private String password;
+    private String qrToken;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String status;
@@ -37,12 +39,28 @@ public class CheckInTask {
         this.title = title;
     }
 
+    public String getCheckInType() {
+        return checkInType;
+    }
+
+    public void setCheckInType(String checkInType) {
+        this.checkInType = checkInType;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getQrToken() {
+        return qrToken;
+    }
+
+    public void setQrToken(String qrToken) {
+        this.qrToken = qrToken;
     }
 
     public LocalDateTime getStartTime() {

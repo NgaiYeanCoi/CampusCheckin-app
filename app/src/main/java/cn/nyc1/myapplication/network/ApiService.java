@@ -13,6 +13,7 @@ import cn.nyc1.myapplication.model.CreateCheckInTaskRequest;
 import cn.nyc1.myapplication.model.LoginRequest;
 import cn.nyc1.myapplication.model.LoginResponse;
 import cn.nyc1.myapplication.model.SubmitCheckInRequest;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -47,7 +48,13 @@ public interface ApiService {
     );
 
     @GET("student/check-in-records")
-    Call<ApiResponse<List<CheckInRecord>>> getStudentCheckInRecords(@Header("Authorization") String token);
+    Call<ApiResponse<List<CheckInRecord>>> getStudentCheckInRecords(
+            @Header("Authorization") String token,
+            @Query("courseId") Long courseId,
+            @Query("status") String status,
+            @Query("startDate") String startDate,
+            @Query("endDate") String endDate
+    );
 
     @GET("teacher/courses")
     Call<ApiResponse<List<Course>>> getTeacherCourses(@Header("Authorization") String token);
@@ -80,6 +87,13 @@ public interface ApiService {
     Call<ApiResponse<List<AttendanceStats>>> getAttendanceStats(
             @Header("Authorization") String token,
             @Path("courseId") long courseId
+    );
+
+    @GET("teacher/courses/{courseId}/attendance-stats/export")
+    Call<ResponseBody> exportAttendanceStats(
+            @Header("Authorization") String token,
+            @Path("courseId") long courseId,
+            @Query("taskId") Long taskId
     );
 
     @GET("courses/{courseId}")

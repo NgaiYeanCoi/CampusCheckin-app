@@ -5,6 +5,7 @@ public class CheckInTask {
     public Long courseId;
     public String courseName;
     public String title;
+    public String checkInType;
     public String startTime;
     public String endTime;
     public String status;

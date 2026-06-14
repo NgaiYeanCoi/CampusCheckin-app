@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vc_bg">
+    android:background="@color/notion_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,12 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="← Teacher"
-            android:textColor="@color/vc_blue"
+            android:textColor="@color/notion_purple"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
-            style="@style/VercelMonoLabel"
+            style="@style/NotionLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_xl"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
             android:text="发起签到."
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="38sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
             android:text="选择课程并设置口令，提交后创建真实数据库任务。"
-            android:textColor="@color/vc_body"
+            android:textColor="@color/notion_body"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -53,7 +53,7 @@
             android:padding="@dimen/space_xl">
 
             <TextView
-                style="@style/VercelMonoLabel"
+                style="@style/NotionLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="COURSE" />
@@ -63,12 +63,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_height"
                 android:layout_marginTop="@dimen/space_sm"
-                android:background="@drawable/bg_input_vercel"
+                android:background="@drawable/bg_input_notion"
                 android:paddingStart="@dimen/space_lg"
                 android:paddingEnd="@dimen/space_lg" />
 
             <TextView
-                style="@style/VercelMonoLabel"
+                style="@style/NotionLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_lg"
@@ -79,14 +79,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_height"
                 android:layout_marginTop="@dimen/space_sm"
-                android:background="@drawable/bg_input_vercel"
+                android:background="@drawable/bg_input_notion"
                 android:paddingStart="@dimen/space_lg"
                 android:paddingEnd="@dimen/space_lg"
                 android:singleLine="true"
-                android:textColor="@color/vc_ink" />
+                android:textColor="@color/notion_ink" />
 
             <TextView
-                style="@style/VercelMonoLabel"
+                style="@style/NotionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:text="CHECK-IN TYPE" />
+
+            <Spinner
+                android:id="@+id/spinnerCheckInType"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/bg_input_notion"
+                android:paddingStart="@dimen/space_lg"
+                android:paddingEnd="@dimen/space_lg" />
+
+            <TextView
+                style="@style/NotionLabel"
+                android:id="@+id/textPasswordLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_lg"
@@ -97,12 +114,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_height"
                 android:layout_marginTop="@dimen/space_sm"
-                android:background="@drawable/bg_input_vercel"
+                android:background="@drawable/bg_input_notion"
                 android:inputType="number"
                 android:paddingStart="@dimen/space_lg"
                 android:paddingEnd="@dimen/space_lg"
                 android:singleLine="true"
-                android:textColor="@color/vc_ink" />
+                android:textColor="@color/notion_ink" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,7 +134,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/VercelMonoLabel"
+                        style="@style/NotionLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="START TIME" />
@@ -127,14 +144,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/input_height"
                         android:layout_marginTop="@dimen/space_sm"
-                        android:background="@drawable/bg_inset_vercel"
+                        android:background="@drawable/bg_inset_notion"
                         android:clickable="true"
                         android:focusable="true"
                         android:fontFamily="monospace"
                         android:gravity="center_vertical"
                         android:paddingStart="@dimen/space_md"
                         android:paddingEnd="@dimen/space_md"
-                        android:textColor="@color/vc_ink"
+                        android:textColor="@color/notion_ink"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -146,7 +163,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/VercelMonoLabel"
+                        style="@style/NotionLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="END TIME" />
@@ -156,14 +173,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/input_height"
                         android:layout_marginTop="@dimen/space_sm"
-                        android:background="@drawable/bg_inset_vercel"
+                        android:background="@drawable/bg_inset_notion"
                         android:clickable="true"
                         android:focusable="true"
                         android:fontFamily="monospace"
                         android:gravity="center_vertical"
                         android:paddingStart="@dimen/space_md"
                         android:paddingEnd="@dimen/space_md"
-                        android:textColor="@color/vc_ink"
+                        android:textColor="@color/notion_ink"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -174,9 +191,9 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/space_lg"
                 android:text="创建签到任务"
-                android:textColor="@color/vc_card"
-                app:backgroundTint="@color/vc_ink"
-                app:cornerRadius="999dp" />
+                android:textColor="@color/notion_card"
+                app:backgroundTint="@color/cc_primary"
+                app:cornerRadius="@dimen/radius_md" />
         </LinearLayout>
 
         <TextView
@@ -186,7 +203,7 @@
             android:layout_marginTop="@dimen/space_lg"
             android:background="@drawable/bg_card"
             android:padding="@dimen/space_lg"
-            android:textColor="@color/vc_body"
+            android:textColor="@color/notion_body"
             android:textSize="13sp" />
     </LinearLayout>
 </ScrollView>

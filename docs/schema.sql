@@ -110,7 +110,9 @@ CREATE TABLE IF NOT EXISTS check_in_tasks (
   task_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '签到任务ID',
   course_id BIGINT NOT NULL COMMENT '课程ID',
   title VARCHAR(100) NOT NULL COMMENT '签到任务标题',
-  password VARCHAR(20) NOT NULL COMMENT '课堂签到口令',
+  check_in_type VARCHAR(20) NOT NULL DEFAULT 'PASSWORD' COMMENT '签到方式：PASSWORD或QR_CODE',
+  password VARCHAR(20) NULL COMMENT '课堂签到口令，PASSWORD任务必填',
+  qr_token VARCHAR(64) NULL COMMENT '静态二维码签到token，QR_CODE任务由后端生成',
   start_time DATETIME NOT NULL COMMENT '签到开始时间',
   end_time DATETIME NOT NULL COMMENT '签到截止时间',
   status VARCHAR(20) NOT NULL DEFAULT 'NOT_STARTED' COMMENT '任务状态：NOT_STARTED、ACTIVE、ENDED或CANCELLED',
@@ -119,6 +121,7 @@ CREATE TABLE IF NOT EXISTS check_in_tasks (
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   KEY idx_check_in_tasks_course_id (course_id),
   KEY idx_check_in_tasks_created_by (created_by),
+  UNIQUE KEY uk_check_in_tasks_qr_token (qr_token),
   KEY idx_check_in_tasks_time (start_time, end_time),
   CONSTRAINT fk_check_in_tasks_course_id FOREIGN KEY (course_id)
     REFERENCES courses (course_id)
@@ -128,8 +131,13 @@ CREATE TABLE IF NOT EXISTS check_in_tasks (
     REFERENCES teachers (teacher_id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
+  CONSTRAINT ck_check_in_tasks_type CHECK (check_in_type IN ('PASSWORD', 'QR_CODE')),
   CONSTRAINT ck_check_in_tasks_status CHECK (status IN ('NOT_STARTED', 'ACTIVE', 'ENDED', 'CANCELLED')),
-  CONSTRAINT ck_check_in_tasks_time CHECK (start_time < end_time)
+  CONSTRAINT ck_check_in_tasks_time CHECK (start_time < end_time),
+  CONSTRAINT ck_check_in_tasks_payload CHECK (
+    (check_in_type = 'PASSWORD' AND password IS NOT NULL AND password <> '')
+    OR (check_in_type = 'QR_CODE' AND qr_token IS NOT NULL AND qr_token <> '')
+  )
 ) ENGINE=InnoDB COMMENT='签到任务表';
 
 CREATE TABLE IF NOT EXISTS check_in_records (
@@ -291,7 +299,9 @@ INSERT INTO check_in_tasks (
   task_id,
   course_id,
   title,
+  check_in_type,
   password,
+  qr_token,
   start_time,
   end_time,
   status,
@@ -302,7 +312,9 @@ VALUES
     1,
     1,
     'Android应用开发 今日课堂签到',
+    'PASSWORD',
     '246810',
+    NULL,
     CURRENT_TIMESTAMP - INTERVAL 10 MINUTE,
     CURRENT_TIMESTAMP + INTERVAL 30 MINUTE,
     'ACTIVE',
@@ -312,7 +324,9 @@ VALUES
     2,
     1,
     'Android应用开发 上次课堂签到',
+    'PASSWORD',
     '112233',
+    NULL,
     CURRENT_TIMESTAMP - INTERVAL 1 DAY - INTERVAL 50 MINUTE,
     CURRENT_TIMESTAMP - INTERVAL 1 DAY,
     'ENDED',
@@ -322,7 +336,9 @@ VALUES
     3,
     2,
     'Java程序设计 课前签到',
+    'PASSWORD',
     '135790',
+    NULL,
     CURRENT_TIMESTAMP + INTERVAL 1 HOUR,
     CURRENT_TIMESTAMP + INTERVAL 2 HOUR,
     'NOT_STARTED',
@@ -330,7 +346,9 @@ VALUES
   )
 ON DUPLICATE KEY UPDATE
   title = VALUES(title),
+  check_in_type = VALUES(check_in_type),
   password = VALUES(password),
+  qr_token = VALUES(qr_token),
   start_time = VALUES(start_time),
   end_time = VALUES(end_time),
   status = VALUES(status),

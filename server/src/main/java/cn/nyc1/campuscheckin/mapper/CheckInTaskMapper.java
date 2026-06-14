@@ -16,7 +16,7 @@ import org.apache.ibatis.annotations.Update;
 public interface CheckInTaskMapper {
 
     @Select("""
-            SELECT task_id, course_id, title, password, start_time, end_time, status, created_by
+            SELECT task_id, course_id, title, check_in_type, password, qr_token, start_time, end_time, status, created_by
             FROM check_in_tasks
             WHERE task_id = #{taskId}
             LIMIT 1
@@ -29,6 +29,7 @@ public interface CheckInTaskMapper {
               t.course_id AS courseId,
               c.course_name AS courseName,
               t.title,
+              t.check_in_type AS checkInType,
               t.start_time AS startTime,
               t.end_time AS endTime,
               t.status
@@ -49,7 +50,7 @@ public interface CheckInTaskMapper {
               c.course_name AS courseName,
               te.name AS teacherName,
               t.title,
-              'PASSWORD' AS checkInType,
+              t.check_in_type AS checkInType,
               t.start_time AS startTime,
               t.end_time AS endTime,
               CASE
@@ -91,6 +92,7 @@ public interface CheckInTaskMapper {
               t.course_id AS courseId,
               c.course_name AS courseName,
               t.title,
+              t.check_in_type AS checkInType,
               t.start_time AS startTime,
               t.end_time AS endTime,
               CASE
@@ -132,6 +134,7 @@ public interface CheckInTaskMapper {
               t.course_id AS courseId,
               c.course_name AS courseName,
               t.title,
+              t.check_in_type AS checkInType,
               t.start_time AS startTime,
               t.end_time AS endTime,
               CASE
@@ -165,8 +168,8 @@ public interface CheckInTaskMapper {
     );
 
     @Insert("""
-            INSERT INTO check_in_tasks (course_id, title, password, start_time, end_time, status, created_by)
-            VALUES (#{courseId}, #{title}, #{password}, #{startTime}, #{endTime}, #{status}, #{createdBy})
+            INSERT INTO check_in_tasks (course_id, title, check_in_type, password, qr_token, start_time, end_time, status, created_by)
+            VALUES (#{courseId}, #{title}, #{checkInType}, #{password}, #{qrToken}, #{startTime}, #{endTime}, #{status}, #{createdBy})
             """)
     @Options(useGeneratedKeys = true, keyProperty = "taskId")
     int insert(CheckInTask task);

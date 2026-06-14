@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:textColor="@color/vc_blue"
+            android:textColor="@color/notion_purple"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_xs"
-        android:textColor="@color/vc_body"
+        android:textColor="@color/notion_body"
         android:textSize="13sp" />
 
     <TextView
@@ -45,6 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_xs"
         android:fontFamily="monospace"
-        android:textColor="@color/vc_mute"
+        android:textColor="@color/notion_mute"
         android:textSize="12sp" />
 </LinearLayout>

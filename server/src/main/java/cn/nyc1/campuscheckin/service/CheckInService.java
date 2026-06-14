@@ -14,13 +14,18 @@ import cn.nyc1.campuscheckin.entity.Teacher;
 import cn.nyc1.campuscheckin.mapper.CheckInRecordMapper;
 import cn.nyc1.campuscheckin.mapper.CheckInTaskMapper;
 import cn.nyc1.campuscheckin.mapper.CourseMapper;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CheckInService {
+    private static final String TYPE_PASSWORD = "PASSWORD";
+    private static final String TYPE_QR_CODE = "QR_CODE";
 
     private final AuthService authService;
     private final CourseMapper courseMapper;
@@ -79,11 +84,23 @@ public class CheckInService {
         if (!request.getStartTime().isBefore(request.getEndTime())) {
             throw new IllegalArgumentException("开始时间必须早于截止时间");
         }
+        String checkInType = resolveCheckInType(request.getCheckInType());
+        String password = trimToNull(request.getPassword());
+        String qrToken = null;
+        if (TYPE_PASSWORD.equals(checkInType)) {
+            if (password == null) {
+                throw new IllegalArgumentException("课堂口令不能为空");
+            }
+        } else {
+            qrToken = UUID.randomUUID().toString().replace("-", "");
+        }
 
         CheckInTask task = new CheckInTask();
         task.setCourseId(request.getCourseId());
         task.setTitle(request.getTitle());
-        task.setPassword(request.getPassword());
+        task.setCheckInType(checkInType);
+        task.setPassword(TYPE_PASSWORD.equals(checkInType) ? password : null);
+        task.setQrToken(qrToken);
         task.setStartTime(request.getStartTime());
         task.setEndTime(request.getEndTime());
         task.setCreatedBy(teacher.getTeacherId());
@@ -95,6 +112,7 @@ public class CheckInService {
         response.setCourseId(task.getCourseId());
         response.setCourseName(course.getCourseName());
         response.setTitle(task.getTitle());
+        response.setCheckInType(task.getCheckInType());
         response.setStartTime(task.getStartTime());
         response.setEndTime(task.getEndTime());
         response.setStatus(task.getStatus());
@@ -130,9 +148,6 @@ public class CheckInService {
         if (task == null) {
             throw new IllegalArgumentException("签到任务不存在");
         }
-        if (!task.getPassword().equals(request.getPassword())) {
-            throw new IllegalArgumentException("签到口令错误");
-        }
         if ("CANCELLED".equals(task.getStatus())) {
             throw new IllegalArgumentException("签到任务已取消");
         }
@@ -153,6 +168,19 @@ public class CheckInService {
         }
         if (now.isAfter(task.getEndTime())) {
             throw new IllegalArgumentException("签到已结束");
+        }
+
+        String checkInType = resolveCheckInType(task.getCheckInType());
+        if (TYPE_PASSWORD.equals(checkInType)) {
+            String password = trimToNull(request.getPassword());
+            if (password == null || !password.equals(task.getPassword())) {
+                throw new IllegalArgumentException("签到口令错误");
+            }
+        } else if (TYPE_QR_CODE.equals(checkInType)) {
+            String qrToken = trimToNull(request.getQrToken());
+            if (qrToken == null || !qrToken.equals(task.getQrToken())) {
+                throw new IllegalArgumentException("二维码无效或已过期");
+            }
         }
 
         String status = "SIGNED";
@@ -177,9 +205,30 @@ public class CheckInService {
         return response;
     }
 
-    public List<CheckInRecordResponse> studentRecords() {
+    public List<CheckInRecordResponse> studentRecords(
+            Long courseId,
+            String status,
+            LocalDate startDate,
+            LocalDate endDate
+    ) {
         Student student = authService.currentStudent();
-        return checkInRecordMapper.findResponsesByStudentId(student.getStudentId());
+        if (courseId != null && courseMapper.countActiveEnrollment(courseId, student.getStudentId()) == 0) {
+            throw new IllegalArgumentException("你未加入该课程");
+        }
+        String normalizedStatus = trimToNull(status);
+        if (normalizedStatus != null && !List.of("SIGNED", "LATE", "ABSENT", "EXCEPTION").contains(normalizedStatus)) {
+            throw new IllegalArgumentException("签到状态筛选条件不正确");
+        }
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("开始日期不能晚于结束日期");
+        }
+        return checkInRecordMapper.findResponsesByStudentId(
+                student.getStudentId(),
+                courseId,
+                normalizedStatus,
+                startDate,
+                endDate
+        );
     }
 
     private String resolveTaskStatus(LocalDateTime startTime, LocalDateTime endTime, LocalDateTime now) {
@@ -190,5 +239,25 @@ public class CheckInService {
             return "ENDED";
         }
         return "ACTIVE";
+    }
+
+    private String resolveCheckInType(String checkInType) {
+        String normalized = trimToNull(checkInType);
+        if (normalized == null) {
+            return TYPE_PASSWORD;
+        }
+        normalized = normalized.toUpperCase(Locale.ROOT);
+        if (!TYPE_PASSWORD.equals(normalized) && !TYPE_QR_CODE.equals(normalized)) {
+            throw new IllegalArgumentException("签到方式不支持");
+        }
+        return normalized;
+    }
+
+    private String trimToNull(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 }

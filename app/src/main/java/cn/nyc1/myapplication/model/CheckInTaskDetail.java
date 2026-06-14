@@ -7,6 +7,8 @@ public class CheckInTaskDetail {
     public Long courseId;
     public String courseName;
     public String title;
+    public String checkInType;
+    public String qrPayload;
     public String startTime;
     public String endTime;
     public String status;

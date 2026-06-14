@@ -3,6 +3,8 @@ package cn.nyc1.myapplication.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,8 +37,10 @@ public class CreateCheckInActivity extends AppCompatActivity {
     private final SimpleDateFormat requestFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.CHINA);
     private SessionManager sessionManager;
     private Spinner spinnerCourses;
+    private Spinner spinnerCheckInType;
     private TextInputEditText editTitle;
     private TextInputEditText editPassword;
+    private TextView textPasswordLabel;
     private TextView editStartTime;
     private TextView editEndTime;
     private TextView textStatus;
@@ -49,8 +53,10 @@ public class CreateCheckInActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         spinnerCourses = findViewById(R.id.spinnerCourses);
+        spinnerCheckInType = findViewById(R.id.spinnerCheckInType);
         editTitle = findViewById(R.id.editTitle);
         editPassword = findViewById(R.id.editPassword);
+        textPasswordLabel = findViewById(R.id.textPasswordLabel);
         editStartTime = findViewById(R.id.editStartTime);
         editEndTime = findViewById(R.id.editEndTime);
         textStatus = findViewById(R.id.textStatus);
@@ -59,6 +65,7 @@ public class CreateCheckInActivity extends AppCompatActivity {
 
         editTitle.setText("Android应用开发 临时签到");
         editPassword.setText("888888");
+        setupCheckInTypes();
         initDefaultTimes();
         updateTimeViews();
         textBack.setOnClickListener(v -> finish());
@@ -67,6 +74,29 @@ public class CreateCheckInActivity extends AppCompatActivity {
         buttonCreate.setEnabled(false);
         buttonCreate.setOnClickListener(v -> createTask());
         loadCourses();
+    }
+
+    private void setupCheckInTypes() {
+        List<String> types = new ArrayList<>();
+        types.add("口令签到");
+        types.add("二维码签到");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCheckInType.setAdapter(adapter);
+        spinnerCheckInType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                boolean qr = position == 1;
+                editPassword.setEnabled(!qr);
+                editPassword.setAlpha(qr ? 0.55f : 1.0f);
+                textPasswordLabel.setText(qr ? "QR TOKEN" : "CODE");
+                textStatus.setText(qr ? "二维码签到将由后端生成静态二维码 token。" : "口令签到需要填写课堂口令。");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void loadCourses() {
@@ -109,7 +139,8 @@ public class CreateCheckInActivity extends AppCompatActivity {
         Course course = courses.get(spinnerCourses.getSelectedItemPosition());
         String title = String.valueOf(editTitle.getText()).trim();
         String password = String.valueOf(editPassword.getText()).trim();
-        if (course.courseId == null || title.isEmpty() || password.isEmpty()) {
+        String checkInType = spinnerCheckInType.getSelectedItemPosition() == 1 ? "QR_CODE" : "PASSWORD";
+        if (course.courseId == null || title.isEmpty() || ("PASSWORD".equals(checkInType) && password.isEmpty())) {
             textStatus.setText("请完整填写签到任务信息");
             return;
         }
@@ -122,7 +153,14 @@ public class CreateCheckInActivity extends AppCompatActivity {
         textStatus.setText("正在创建签到任务...");
         String startTime = requestFormat.format(selectedStartTime.getTime());
         String endTime = requestFormat.format(selectedEndTime.getTime());
-        CreateCheckInTaskRequest request = new CreateCheckInTaskRequest(course.courseId, title, password, startTime, endTime);
+        CreateCheckInTaskRequest request = new CreateCheckInTaskRequest(
+                course.courseId,
+                title,
+                checkInType,
+                "PASSWORD".equals(checkInType) ? password : null,
+                startTime,
+                endTime
+        );
         RetrofitClient.api().createCheckInTask(sessionManager.authHeader(), request)
                 .enqueue(new SimpleCallback<CheckInTask>() {
                     @Override

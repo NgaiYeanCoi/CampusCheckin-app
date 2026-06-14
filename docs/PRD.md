@@ -6,14 +6,14 @@
 |---|---|
 | 产品名称 | CampusCheckin / 智课签 |
 | 项目主题 | 基于 Android 的校园课程考勤签到 APP 设计与实现 |
-| 文档版本 | v1.3 |
-| 文档状态 | 第一阶段开发与答辩版本 |
+| 文档版本 | v1.4 |
+| 文档状态 | 第二阶段开发与答辩增强版本 |
 | 适用阶段 | 课程设计 / Android 实训 / 毕业设计原型 |
-| 当前主视觉 | `docs/vercel/DESIGN.md` |
+| 当前主视觉 | `docs/notion/DESIGN.md` |
 | 默认后端端口 | `8081` |
 | Android 模拟器 API 地址 | `http://10.0.2.2:8081/api/v1/` |
 | 后端本机 API 地址 | `http://localhost:8081/api/v1/` |
-| 最近更新 | 2026-06-07 |
+| 最近更新 | 2026-06-14 |
 
 **版本记录**
 
@@ -23,6 +23,7 @@
 | v1.1 | 2026-05-18 | 补充 Vercel 风格、Swagger / OpenAPI、教师手动截止 |
 | v1.2 | 2026-05-19 | 按规范 PRD 扩写，加入流程图、用户故事、接口矩阵和验收用例 |
 | v1.3 | 2026-06-07 | 统一接口响应体 `code` 规则，明确 `200` 表示请求成功 |
+| v1.4 | 2026-06-14 | 第二阶段加入 Notion 视觉、静态二维码签到、CSV 导出和签到记录筛选 |
 
 **PRD 写法参考**
 
@@ -89,7 +90,7 @@ CampusCheckin / 智课签 是一个基于 Android 的校园课程考勤签到 AP
 | 项目类型 | Android 原生客户端 + Spring Boot 后端 + MySQL 数据库 |
 | 复杂度 | 中等，适合课程设计和答辩演示 |
 | 核心亮点 | 真实数据库、REST API、角色区分、签到任务闭环、统计展示 |
-| 设计方向 | `docs/vercel/DESIGN.md`，clean / card-based / Vercel style |
+| 设计方向 | `docs/notion/DESIGN.md`，Notion style / card-based / pastel status |
 | 实现原则 | 优先可运行、可讲解、可验证，不做过度工程化 |
 
 第一阶段范围边界：
@@ -258,9 +259,14 @@ CampusCheckin / 智课签 是一个基于 Android 的校园课程考勤签到 AP
 
 ## 8. 后续扩展功能
 
+第二阶段已实现的增强能力：
+
+- 静态二维码签到。
+- CSV 考勤统计导出。
+- 学生签到记录按课程、状态和日期筛选。
+
 后续可扩展功能包括：
 
-- 二维码签到。
 - 定位签到。
 - 手势签到。
 - 拍照签到。
@@ -270,10 +276,9 @@ CampusCheckin / 智课签 是一个基于 Android 的校园课程考勤签到 AP
 - 管理员后台。
 - 课程和用户管理。
 - 消息通知。
-- 考勤导出。
 - 异常申诉。
 - 学生维度统计。
-- 签到记录筛选和搜索。
+- 签到记录搜索。
 - Redis 缓存或分布式会话。
 - 更完整的权限管理。
 
@@ -281,7 +286,7 @@ CampusCheckin / 智课签 是一个基于 Android 的校园课程考勤签到 AP
 
 | 阶段 | 功能 | 说明 |
 |---|---|---|
-| 第二阶段 | 二维码签到、导出统计、签到记录筛选 | 展示效果明显，适合继续完善 |
+| 第二阶段 | 静态二维码签到、CSV 导出统计、签到记录筛选 | 展示效果明显，适合继续完善 |
 | 第三阶段 | 定位签到、异常申诉、消息通知 | 需要权限和更复杂状态处理 |
 | 第四阶段 | 管理员后台、排课管理、复杂反作弊 | 更接近正式系统，不作为第一阶段重点 |
 
@@ -303,7 +308,7 @@ CampusCheckin / 智课签 是一个基于 Android 的校园课程考勤签到 AP
 | 考勤统计页 | 教师 | 查看课程考勤结果 | 应到、已到、迟到、缺勤、出勤率 | 是 | 无任务、统计为空、加载失败 |
 | 个人中心页 | 学生 / 教师 | 查看用户信息 | 姓名、学号/工号、角色、退出登录 | 是 | 未登录、退出确认 |
 | 管理员页面 | 管理员 | 管理用户和课程 | 用户管理、课程管理 | 否 | 后续扩展 |
-| 二维码签到页 | 学生 / 教师 | 扫码或展示二维码签到 | 二维码生成、扫码 | 否 | 后续扩展 |
+| 二维码签到页 | 学生 / 教师 | 扫码或展示二维码签到 | 静态二维码生成、扫码提交 | 是，第二阶段实现 | 二维码无效、重复签到、任务截止 |
 | 定位签到页 | 学生 | 校验位置签到 | 定位权限、距离判断 | 否 | 后续扩展 |
 
 页面状态说明：
@@ -560,8 +565,9 @@ flowchart TD
 | taskId | Long | 签到任务 ID |
 | courseId | Long | 关联课程 ID |
 | title | String | 签到任务标题 |
-| checkInType | String | 签到方式：PASSWORD、NORMAL、QR_CODE、LOCATION、GESTURE、PHOTO；第一阶段可先固定为 PASSWORD |
-| password | String | 课堂口令 |
+| checkInType | String | 签到方式：PASSWORD、QR_CODE；第二阶段支持静态二维码签到 |
+| password | String | 课堂口令，PASSWORD 任务必填 |
+| qrToken | String | 静态二维码 token，QR_CODE 任务由后端生成 |
 | startTime | DateTime | 签到开始时间 |
 | endTime | DateTime | 签到截止时间 |
 | status | String | 任务状态：NOT_STARTED、ACTIVE、ENDED、CANCELLED |
@@ -594,7 +600,7 @@ flowchart TD
 | courseName | String | 课程名称 |
 | teacherName | String | 授课教师 |
 | title | String | 签到标题 |
-| checkInType | String | 签到方式，第一阶段主要为 PASSWORD |
+| checkInType | String | 签到方式：PASSWORD、QR_CODE |
 | startTime | DateTime | 开始时间 |
 | endTime | DateTime | 截止时间 |
 | taskStatus | String | 任务状态：NOT_STARTED、ACTIVE、ENDED、CANCELLED |
@@ -606,7 +612,7 @@ flowchart TD
 - 当前建库、建表和初始化演示数据维护在 `docs/schema.sql`。
 - 数据库名为 `campus_checkin`。
 - 第一阶段已经包含 `users`、`students`、`teachers`、`courses`、`course_enrollments`、`check_in_tasks`、`check_in_records`。
-- 如果后续实现 `checkInType` 持久化，应在 `check_in_tasks` 中补充 `check_in_type` 字段，并同步更新 `docs/schema.sql`、实体、DTO 和 OpenAPI。
+- 第二阶段已在 `check_in_tasks` 中持久化 `check_in_type` 和 `qr_token`，并同步更新 `docs/schema.sql`、实体、DTO 和 OpenAPI。
 
 ## 13. 非功能需求
 
@@ -629,8 +635,8 @@ flowchart TD
 
 页面一致性：
 
-- 遵守 `docs/vercel/DESIGN.md` 的当前视觉方向，并适配校园考勤场景。
-- 使用 clean / card-based / Vercel style。
+- 遵守 `docs/notion/DESIGN.md` 的当前视觉方向，并适配校园考勤场景。
+- 使用 Notion style：紫色主按钮、深 navy 重点区域、暖灰背景、12dp 卡片和柔和状态色。
 - 课程、签到任务和统计信息使用卡片式布局。
 - 颜色、间距、文字应放入 Android 资源文件管理。
 - 不复制任何品牌 Logo、商标、专有插画。
@@ -773,8 +779,8 @@ UI 和技术验收：
 
 - 页面风格统一，符合校园考勤 APP 场景。
 - 项目使用 Java + XML 实现 Android 页面，不使用 Jetpack Compose。
-- 当前主视觉遵守 `docs/vercel/DESIGN.md`。
-- 第一阶段不实现管理员端、二维码签到、定位签到、蓝牙/Wi-Fi 签到、消息推送和考勤导出。
+- 当前主视觉遵守 `docs/notion/DESIGN.md`。
+- 第一阶段不实现管理员端、二维码签到、定位签到、蓝牙/Wi-Fi 签到、消息推送和考勤导出；第二阶段已补充静态二维码签到、CSV 统计导出和签到记录筛选。
 
 答辩演示脚本：
 

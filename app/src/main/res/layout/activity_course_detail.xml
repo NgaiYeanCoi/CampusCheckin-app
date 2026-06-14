@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vc_bg">
+    android:background="@color/notion_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="← Courses"
-            android:textColor="@color/vc_blue"
+            android:textColor="@color/notion_purple"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
-            style="@style/VercelMonoLabel"
+            style="@style/NotionLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_xl"
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="38sp"
             android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/vc_body"
+            android:textColor="@color/notion_body"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -56,7 +56,7 @@
                 android:background="@drawable/bg_card"
                 android:gravity="center"
                 android:text="LOCATION\nA-301"
-                android:textColor="@color/vc_ink"
+                android:textColor="@color/notion_ink"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
                 android:background="@drawable/bg_card"
                 android:gravity="center"
                 android:text="SEMESTER\n2025-2"
-                android:textColor="@color/vc_ink"
+                android:textColor="@color/notion_ink"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/vc_ink"
+                    android:textColor="@color/notion_ink"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -106,7 +106,7 @@
                     android:paddingTop="@dimen/space_xs"
                     android:paddingEnd="@dimen/space_md"
                     android:paddingBottom="@dimen/space_xs"
-                    android:textColor="@color/vc_blue"
+                    android:textColor="@color/notion_purple"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -115,17 +115,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_xl"
-                android:textColor="@color/vc_body"
+                android:textColor="@color/notion_body"
                 android:textSize="15sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_lg"
-                android:background="@drawable/bg_inset_vercel"
+                android:background="@drawable/bg_inset_notion"
                 android:padding="@dimen/space_lg"
                 android:text="RULE\n有效时间内提交为已签到，超时提交为迟到。"
-                android:textColor="@color/vc_body"
+                android:textColor="@color/notion_body"
                 android:textSize="13sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -134,9 +134,9 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/space_lg"
                 android:text="输入口令签到"
-                android:textColor="@color/vc_card"
-                app:backgroundTint="@color/vc_ink"
-                app:cornerRadius="999dp" />
+                android:textColor="@color/notion_card"
+                app:backgroundTint="@color/cc_primary"
+                app:cornerRadius="@dimen/radius_md" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

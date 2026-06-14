@@ -43,6 +43,7 @@ public class StudentHomeActivity extends AppCompatActivity {
         textHomeStatus = findViewById(R.id.textHomeStatus);
         MaterialButton buttonSchedule = findViewById(R.id.buttonSchedule);
         MaterialButton buttonRecords = findViewById(R.id.buttonRecords);
+        MaterialButton buttonScanQr = findViewById(R.id.buttonScanQr);
         TextView buttonProfile = findViewById(R.id.buttonProfile);
         RecyclerView recyclerActiveTasks = findViewById(R.id.recyclerActiveTasks);
         RecyclerView recyclerCourses = findViewById(R.id.recyclerCourses);
@@ -64,6 +65,7 @@ public class StudentHomeActivity extends AppCompatActivity {
 
         buttonSchedule.setOnClickListener(v -> startActivity(new Intent(this, ScheduleActivity.class)));
         buttonRecords.setOnClickListener(v -> startActivity(new Intent(this, CheckInRecordActivity.class)));
+        buttonScanQr.setOnClickListener(v -> startActivity(new Intent(this, QrScanActivity.class)));
         buttonProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
         loadDashboard();
     }
@@ -134,6 +136,10 @@ public class StudentHomeActivity extends AppCompatActivity {
         }
         if (!task.canSubmit()) {
             Toast.makeText(this, "当前任务" + statusForToast(task), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if ("QR_CODE".equals(task.checkInType)) {
+            startActivity(new Intent(this, QrScanActivity.class));
             return;
         }
         Intent intent = new Intent(this, CheckInConfirmActivity.class);

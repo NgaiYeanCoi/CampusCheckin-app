@@ -16,6 +16,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,5 +89,19 @@ public class TeacherController {
             @Parameter(description = "课程 ID", example = "1") @PathVariable Long courseId
     ) {
         return ApiResponse.success(attendanceService.courseStats(courseId));
+    }
+
+    @GetMapping("/courses/{courseId}/attendance-stats/export")
+    @Operation(summary = "导出课程考勤统计 CSV", description = "教师导出指定课程的签到统计数据，可按 taskId 筛选。")
+    public ResponseEntity<String> exportAttendanceStats(
+            @Parameter(description = "课程 ID", example = "1") @PathVariable Long courseId,
+            @Parameter(description = "签到任务 ID，可选", example = "1") @RequestParam(required = false) Long taskId
+    ) {
+        String csv = attendanceService.courseStatsCsv(courseId, taskId);
+        String filename = "attendance-stats-course-" + courseId + ".csv";
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.parseMediaType("text/csv;charset=UTF-8"))
+                .body(csv);
     }
 }

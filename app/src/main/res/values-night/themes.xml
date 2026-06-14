@@ -1,11 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.CampusCheckin" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">sans</item>
-        <item name="colorPrimary">@color/vc_ink</item>
-        <item name="colorPrimaryDark">@color/vc_ink</item>
-        <item name="colorAccent">@color/vc_blue</item>
-        <item name="android:statusBarColor">@color/vc_bg</item>
-        <item name="android:navigationBarColor">@color/vc_bg</item>
-        <item name="android:windowBackground">@color/vc_bg</item>
+        <item name="colorPrimary">@color/cc_primary</item>
+        <item name="colorPrimaryDark">@color/cc_navy</item>
+        <item name="colorAccent">@color/cc_primary</item>
+        <item name="android:statusBarColor">@color/cc_background</item>
+        <item name="android:navigationBarColor">@color/cc_background</item>
+        <item name="android:windowBackground">@color/cc_background</item>
     </style>
 </resources>

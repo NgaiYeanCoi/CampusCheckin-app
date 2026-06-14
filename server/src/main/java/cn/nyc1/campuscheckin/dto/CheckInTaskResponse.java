@@ -18,6 +18,9 @@ public class CheckInTaskResponse {
     @Schema(description = "签到任务标题", example = "Android应用开发 今日课堂签到")
     private String title;
 
+    @Schema(description = "签到方式", example = "PASSWORD", allowableValues = {"PASSWORD", "QR_CODE"})
+    private String checkInType;
+
     @Schema(description = "签到开始时间", example = "2026-05-17T14:00:00")
     private LocalDateTime startTime;
 
@@ -63,6 +66,14 @@ public class CheckInTaskResponse {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCheckInType() {
+        return checkInType;
+    }
+
+    public void setCheckInType(String checkInType) {
+        this.checkInType = checkInType;
     }
 
     public LocalDateTime getStartTime() {

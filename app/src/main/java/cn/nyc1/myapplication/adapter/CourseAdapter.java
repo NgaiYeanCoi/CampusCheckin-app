@@ -53,8 +53,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.time.setText(FormatUtils.courseTime(course.weekDay, course.section, course.startTime, course.endTime));
         holder.status.setText(FormatUtils.safe(course.status));
         int color = "ACTIVE".equals(course.status)
-                ? ContextCompat.getColor(holder.itemView.getContext(), R.color.vc_blue)
-                : ContextCompat.getColor(holder.itemView.getContext(), R.color.vc_body);
+                ? ContextCompat.getColor(holder.itemView.getContext(), R.color.notion_purple)
+                : ContextCompat.getColor(holder.itemView.getContext(), R.color.notion_body);
         holder.status.setTextColor(color);
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

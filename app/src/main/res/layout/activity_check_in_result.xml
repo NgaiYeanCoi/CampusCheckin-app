@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vc_bg"
+    android:background="@color/notion_bg"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/space_xl">
 
     <TextView
-        style="@style/VercelMonoLabel"
+        style="@style/NotionLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_lg"
         android:gravity="center"
-        android:textColor="@color/vc_ink"
+        android:textColor="@color/notion_ink"
         android:textSize="38sp"
         android:textStyle="bold" />
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_md"
         android:gravity="center"
-        android:textColor="@color/vc_body"
+        android:textColor="@color/notion_body"
         android:textSize="16sp" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_marginTop="@dimen/space_sm"
         android:fontFamily="monospace"
         android:gravity="center"
-        android:textColor="@color/vc_mute"
+        android:textColor="@color/notion_mute"
         android:textSize="12sp" />
 
     <com.google.android.material.button.MaterialButton
@@ -50,7 +50,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_marginTop="@dimen/space_xl"
         android:text="返回首页"
-        android:textColor="@color/vc_card"
-        app:backgroundTint="@color/vc_ink"
-        app:cornerRadius="999dp" />
+        android:textColor="@color/notion_card"
+        app:backgroundTint="@color/cc_primary"
+        app:cornerRadius="@dimen/radius_md" />
 </LinearLayout>

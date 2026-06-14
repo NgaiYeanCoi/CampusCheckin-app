@@ -3,6 +3,11 @@ package cn.nyc1.myapplication.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -11,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.util.List;
 import java.util.Locale;
@@ -50,6 +58,9 @@ public class CheckInTaskDetailActivity extends AppCompatActivity {
     private TextView textAbsent;
     private TextView textRate;
     private TextView textStudentsTitle;
+    private LinearLayout layoutQrCode;
+    private ImageView imageQrCode;
+    private TextView textQrPayload;
     private MaterialButton buttonRefresh;
     private MaterialButton buttonEnd;
 
@@ -72,6 +83,9 @@ public class CheckInTaskDetailActivity extends AppCompatActivity {
         textAbsent = findViewById(R.id.textAbsent);
         textRate = findViewById(R.id.textRate);
         textStudentsTitle = findViewById(R.id.textStudentsTitle);
+        layoutQrCode = findViewById(R.id.layoutQrCode);
+        imageQrCode = findViewById(R.id.imageQrCode);
+        textQrPayload = findViewById(R.id.textQrPayload);
         buttonRefresh = findViewById(R.id.buttonRefresh);
         buttonEnd = findViewById(R.id.buttonEnd);
         RecyclerView recyclerStudents = findViewById(R.id.recyclerStudents);
@@ -108,7 +122,7 @@ public class CheckInTaskDetailActivity extends AppCompatActivity {
         }
         if (showLoading) {
             textStatus.setText("正在刷新签到明细...");
-            textStatus.setTextColor(getColor(R.color.vc_blue));
+            textStatus.setTextColor(getColor(R.color.notion_purple));
             buttonRefresh.setEnabled(false);
         }
         RetrofitClient.api().getTeacherCheckInTaskDetail(sessionManager.authHeader(), taskId)
@@ -137,7 +151,8 @@ public class CheckInTaskDetailActivity extends AppCompatActivity {
         textMeta.setText(FormatUtils.safe(detail.courseName) + "\n"
                 + FormatUtils.safe(detail.startTime) + " - " + FormatUtils.safe(detail.endTime));
         textStatus.setText(FormatUtils.statusText(detail.status));
-        textStatus.setTextColor(getColor("ACTIVE".equals(detail.status) ? R.color.vc_blue : R.color.vc_mute));
+        textStatus.setTextColor(getColor("ACTIVE".equals(detail.status) ? R.color.notion_purple : R.color.notion_mute));
+        bindQrCode(detail);
         bindSummary(detail.summary);
 
         List<cn.nyc1.myapplication.model.CheckInStudentRecord> students = detail.students;
@@ -155,9 +170,10 @@ public class CheckInTaskDetailActivity extends AppCompatActivity {
         textTitle.setText("签到任务详情");
         textMeta.setText("等待后端返回任务信息");
         textStatus.setText("正在加载...");
-        textStatus.setTextColor(getColor(R.color.vc_blue));
+        textStatus.setTextColor(getColor(R.color.notion_purple));
         bindSummary(null);
         textStudentsTitle.setText("学生签到明细");
+        layoutQrCode.setVisibility(View.GONE);
         buttonEnd.setEnabled(false);
         buttonEnd.setAlpha(0.55f);
     }
@@ -166,9 +182,10 @@ public class CheckInTaskDetailActivity extends AppCompatActivity {
         textTitle.setText("签到任务详情");
         textMeta.setText("请检查后端服务是否为最新代码，并查看服务日志");
         textStatus.setText("加载失败：" + FormatUtils.safe(message));
-        textStatus.setTextColor(getColor(R.color.vc_error));
+        textStatus.setTextColor(getColor(R.color.notion_error));
         bindSummary(null);
         adapter.submitList(null);
+        layoutQrCode.setVisibility(View.GONE);
         textStudentsTitle.setText("学生签到明细 · 加载失败");
         buttonEnd.setEnabled(false);
         buttonEnd.setAlpha(0.55f);
@@ -195,6 +212,32 @@ public class CheckInTaskDetailActivity extends AppCompatActivity {
 
     private int number(Integer value) {
         return value == null ? 0 : value;
+    }
+
+    private void bindQrCode(CheckInTaskDetail detail) {
+        if (detail == null || !"QR_CODE".equals(detail.checkInType) || detail.qrPayload == null || detail.qrPayload.trim().isEmpty()) {
+            layoutQrCode.setVisibility(View.GONE);
+            return;
+        }
+        try {
+            layoutQrCode.setVisibility(View.VISIBLE);
+            imageQrCode.setImageBitmap(createQrBitmap(detail.qrPayload, 720));
+            textQrPayload.setText("学生扫码后自动提交签到");
+        } catch (Exception exception) {
+            layoutQrCode.setVisibility(View.GONE);
+            textStatus.setText("二维码生成失败");
+        }
+    }
+
+    private Bitmap createQrBitmap(String payload, int size) throws Exception {
+        BitMatrix matrix = new QRCodeWriter().encode(payload, BarcodeFormat.QR_CODE, size, size);
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                bitmap.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : Color.WHITE);
+            }
+        }
+        return bitmap;
     }
 
     private void confirmEndTask() {

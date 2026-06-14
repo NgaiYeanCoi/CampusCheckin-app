@@ -19,6 +19,12 @@ public class CheckInTaskDetailResponse {
     @Schema(description = "签到标题", example = "Android应用开发 今日课堂签到")
     private String title;
 
+    @Schema(description = "签到方式", example = "QR_CODE", allowableValues = {"PASSWORD", "QR_CODE"})
+    private String checkInType;
+
+    @Schema(description = "教师端二维码内容，仅 QR_CODE 任务返回", example = "campuscheckin://check-in?taskId=1&token=abc")
+    private String qrPayload;
+
     @Schema(description = "签到开始时间", example = "2026-05-20T19:00:00")
     private LocalDateTime startTime;
 
@@ -64,6 +70,22 @@ public class CheckInTaskDetailResponse {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCheckInType() {
+        return checkInType;
+    }
+
+    public void setCheckInType(String checkInType) {
+        this.checkInType = checkInType;
+    }
+
+    public String getQrPayload() {
+        return qrPayload;
+    }
+
+    public void setQrPayload(String qrPayload) {
+        this.qrPayload = qrPayload;
     }
 
     public LocalDateTime getStartTime() {

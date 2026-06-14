@@ -16,8 +16,10 @@ public class CreateCheckInTaskRequest {
     @NotBlank(message = "签到标题不能为空")
     private String title;
 
-    @Schema(description = "课堂签到口令", example = "888888")
-    @NotBlank(message = "签到口令不能为空")
+    @Schema(description = "签到方式，第一阶段兼容 PASSWORD，第二阶段支持 QR_CODE", example = "PASSWORD", allowableValues = {"PASSWORD", "QR_CODE"})
+    private String checkInType = "PASSWORD";
+
+    @Schema(description = "课堂签到口令，PASSWORD 模式必填，QR_CODE 模式可为空", example = "888888")
     private String password;
 
     @Schema(description = "签到开始时间，ISO 日期时间", example = "2026-05-17T14:00:00")
@@ -42,6 +44,14 @@ public class CreateCheckInTaskRequest {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCheckInType() {
+        return checkInType;
+    }
+
+    public void setCheckInType(String checkInType) {
+        this.checkInType = checkInType;
     }
 
     public String getPassword() {

@@ -55,7 +55,7 @@ public class CheckInTaskAdapter extends RecyclerView.Adapter<CheckInTaskAdapter.
         CheckInTask task = tasks.get(position);
         holder.title.setText(FormatUtils.safe(task.title));
         holder.status.setText(FormatUtils.statusText(task.status));
-        holder.course.setText(FormatUtils.safe(task.courseName));
+        holder.course.setText(FormatUtils.safe(task.courseName) + " · " + typeText(task.checkInType));
         holder.time.setText(FormatUtils.safe(task.startTime) + " - " + FormatUtils.safe(task.endTime));
         holder.summary.setText("已签 " + number(task.submittedCount) + " / 应到 " + number(task.totalCount));
         holder.itemView.setOnClickListener(v -> {
@@ -80,6 +80,10 @@ public class CheckInTaskAdapter extends RecyclerView.Adapter<CheckInTaskAdapter.
 
     private int number(Integer value) {
         return value == null ? 0 : value;
+    }
+
+    private String typeText(String checkInType) {
+        return "QR_CODE".equals(checkInType) ? "二维码" : "口令";
     }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {

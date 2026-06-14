@@ -317,6 +317,19 @@ $createdTask = Invoke-RestMethod `
 $createdTask.data.taskId
 ```
 
+二维码签到任务示例：
+
+```powershell
+$qrTask = Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:8081/api/v1/teacher/check-in-tasks" `
+  -ContentType "application/json" `
+  -Headers @{ Authorization = $teacherToken } `
+  -Body '{"courseId":1,"title":"Android应用开发 二维码签到","checkInType":"QR_CODE","startTime":"2026-06-14T14:00:00","endTime":"2026-06-14T15:00:00"}'
+
+$qrTask.data.taskId
+```
+
 ### 7.12 教师查询签到任务列表
 
 ```powershell
@@ -361,6 +374,30 @@ Invoke-RestMethod `
   -Headers @{ Authorization = $teacherToken }
 ```
 
+二维码任务详情中会返回：
+
+```text
+qrPayload = campuscheckin://check-in?taskId=<taskId>&token=<qrToken>
+```
+
+学生扫码后等价于提交：
+
+```powershell
+$qrDetail = Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:8081/api/v1/teacher/check-in-tasks/$($qrTask.data.taskId)/detail" `
+  -Headers @{ Authorization = $teacherToken }
+
+$qrToken = [regex]::Match($qrDetail.data.qrPayload, "token=([^&]+)").Groups[1].Value
+
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:8081/api/v1/student/check-in" `
+  -ContentType "application/json" `
+  -Headers @{ Authorization = $studentToken } `
+  -Body (@{ taskId = $qrTask.data.taskId; qrToken = $qrToken } | ConvertTo-Json)
+```
+
 ### 7.15 教师查看考勤统计
 
 ```powershell
@@ -368,6 +405,25 @@ Invoke-RestMethod `
   -Method Get `
   -Uri "http://localhost:8081/api/v1/teacher/courses/1/attendance-stats" `
   -Headers @{ Authorization = $teacherToken }
+```
+
+### 7.16 学生筛选签到记录
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:8081/api/v1/student/check-in-records?courseId=1&status=SIGNED&startDate=2026-06-01&endDate=2026-06-30" `
+  -Headers @{ Authorization = $studentToken }
+```
+
+### 7.17 教师导出考勤统计 CSV
+
+```powershell
+Invoke-WebRequest `
+  -Method Get `
+  -Uri "http://localhost:8081/api/v1/teacher/courses/1/attendance-stats/export" `
+  -Headers @{ Authorization = $teacherToken } `
+  -OutFile "attendance-stats-course-1.csv"
 ```
 
 ## 8. 常用接口
@@ -389,6 +445,7 @@ GET  /api/v1/teacher/check-in-tasks
 POST /api/v1/teacher/check-in-tasks/{taskId}/end
 GET  /api/v1/teacher/check-in-tasks/{taskId}/detail
 GET  /api/v1/teacher/courses/{courseId}/attendance-stats
+GET  /api/v1/teacher/courses/{courseId}/attendance-stats/export
 
 GET  /api/v1/courses/{courseId}
 GET  /api/v1/courses/{courseId}/active-check-in-task

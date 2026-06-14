@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vc_bg"
+    android:background="@color/notion_bg"
     android:orientation="vertical"
     android:padding="@dimen/space_xl">
 
     <TextView
-        style="@style/VercelMonoLabel"
+        style="@style/NotionLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_lg"
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_sm"
         android:text="签到记录."
-        android:textColor="@color/vc_ink"
+        android:textColor="@color/notion_ink"
         android:textSize="34sp"
         android:textStyle="bold" />
 
@@ -27,8 +28,98 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_sm"
-        android:textColor="@color/vc_body"
+        android:textColor="@color/notion_body"
         android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_lg"
+        android:background="@drawable/bg_card"
+        android:orientation="vertical"
+        android:padding="@dimen/space_lg">
+
+        <Spinner
+            android:id="@+id/spinnerCourseFilter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_height"
+            android:background="@drawable/bg_input_notion"
+            android:paddingStart="@dimen/space_lg"
+            android:paddingEnd="@dimen/space_lg" />
+
+        <Spinner
+            android:id="@+id/spinnerStatusFilter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_height"
+            android:layout_marginTop="@dimen/space_sm"
+            android:background="@drawable/bg_input_notion"
+            android:paddingStart="@dimen/space_lg"
+            android:paddingEnd="@dimen/space_lg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_height"
+            android:layout_marginTop="@dimen/space_sm"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textStartDate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_inset_notion"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="开始日期"
+                android:textColor="@color/notion_body"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/textEndDate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:background="@drawable/bg_inset_notion"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="结束日期"
+                android:textColor="@color/notion_body"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="@dimen/space_sm"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonApplyFilters"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="应用筛选"
+                android:textColor="@color/notion_card"
+                app:backgroundTint="@color/cc_primary"
+                app:cornerRadius="@dimen/radius_md" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonResetFilters"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:text="重置"
+                android:textColor="@color/notion_ink"
+                app:backgroundTint="@color/notion_card"
+                app:cornerRadius="@dimen/radius_md"
+                app:strokeColor="@color/notion_line"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerRecords"

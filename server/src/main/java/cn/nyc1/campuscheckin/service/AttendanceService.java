@@ -39,6 +39,29 @@ public class AttendanceService {
         return attendanceStatsMapper.findByCourseId(courseId);
     }
 
+    public String courseStatsCsv(Long courseId, Long taskId) {
+        List<AttendanceStatsResponse> rows = courseStats(courseId);
+        StringBuilder builder = new StringBuilder();
+        builder.append('\ufeff');
+        builder.append("课程编号,课程名称,签到任务ID,签到任务标题,应到,已签,迟到,缺勤,异常,出勤率\n");
+        for (AttendanceStatsResponse row : rows) {
+            if (taskId != null && !taskId.equals(row.getTaskId())) {
+                continue;
+            }
+            appendCsv(builder, row.getCourseCode());
+            appendCsv(builder, row.getCourseName());
+            appendCsv(builder, row.getTaskId());
+            appendCsv(builder, row.getTaskTitle());
+            appendCsv(builder, row.getTotalCount());
+            appendCsv(builder, row.getSignedCount());
+            appendCsv(builder, row.getLateCount());
+            appendCsv(builder, row.getAbsentCount());
+            appendCsv(builder, row.getExceptionCount());
+            builder.append(row.getAttendanceRate() == null ? "" : row.getAttendanceRate().toPlainString()).append("%\n");
+        }
+        return builder.toString();
+    }
+
     public CheckInTaskDetailResponse taskDetail(Long taskId) {
         Teacher teacher = authService.currentTeacher();
         CheckInTaskDetailResponse detail = attendanceStatsMapper.findTaskDetailHeader(taskId, teacher.getTeacherId());
@@ -58,5 +81,10 @@ public class AttendanceService {
         detail.setSummary(summary);
         detail.setStudents(attendanceStatsMapper.findStudentRecordsByTaskId(taskId));
         return detail;
+    }
+
+    private void appendCsv(StringBuilder builder, Object value) {
+        String text = value == null ? "" : String.valueOf(value);
+        builder.append('"').append(text.replace("\"", "\"\"")).append("\",");
     }
 }

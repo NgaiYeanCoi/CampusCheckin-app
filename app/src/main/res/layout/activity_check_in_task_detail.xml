@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vc_bg">
+    android:background="@color/notion_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,12 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="← Tasks"
-            android:textColor="@color/vc_blue"
+            android:textColor="@color/notion_purple"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
-            style="@style/VercelMonoLabel"
+            style="@style/NotionLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_xl"
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/vc_body"
+            android:textColor="@color/notion_body"
             android:textSize="14sp" />
 
         <TextView
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
             android:fontFamily="monospace"
-            android:textColor="@color/vc_blue"
+            android:textColor="@color/notion_purple"
             android:textSize="13sp" />
 
         <LinearLayout
@@ -65,10 +65,10 @@
                 android:layout_height="44dp"
                 android:layout_weight="1"
                 android:text="刷新"
-                android:textColor="@color/vc_ink"
-                app:backgroundTint="@color/vc_card"
-                app:cornerRadius="999dp"
-                app:strokeColor="@color/vc_line"
+                android:textColor="@color/notion_ink"
+                app:backgroundTint="@color/notion_card"
+                app:cornerRadius="@dimen/radius_md"
+                app:strokeColor="@color/notion_line"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -78,9 +78,43 @@
                 android:layout_marginStart="@dimen/space_sm"
                 android:layout_weight="1"
                 android:text="手动截止"
-                android:textColor="@color/vc_card"
-                app:backgroundTint="@color/vc_ink"
-                app:cornerRadius="999dp" />
+                android:textColor="@color/notion_card"
+                app:backgroundTint="@color/cc_primary"
+                app:cornerRadius="@dimen/radius_md" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutQrCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_card"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/NotionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="QR CHECK-IN" />
+
+            <ImageView
+                android:id="@+id/imageQrCode"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="@dimen/space_md"
+                android:contentDescription="签到二维码" />
+
+            <TextView
+                android:id="@+id/textQrPayload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:gravity="center"
+                android:textColor="@color/notion_body"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,7 +126,7 @@
             android:padding="@dimen/space_lg">
 
             <TextView
-                style="@style/VercelMonoLabel"
+                style="@style/NotionLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="LIVE SUMMARY" />
@@ -110,7 +144,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_card"
                     android:gravity="center"
-                    android:textColor="@color/vc_ink"
+                    android:textColor="@color/notion_ink"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -122,7 +156,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_card"
                     android:gravity="center"
-                    android:textColor="@color/vc_blue"
+                    android:textColor="@color/notion_purple"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -134,7 +168,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_card"
                     android:gravity="center"
-                    android:textColor="@color/vc_mute"
+                    android:textColor="@color/notion_mute"
                     android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -152,7 +186,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_card"
                     android:gravity="center"
-                    android:textColor="@color/vc_warning"
+                    android:textColor="@color/notion_warning"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -164,7 +198,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_card"
                     android:gravity="center"
-                    android:textColor="@color/vc_error"
+                    android:textColor="@color/notion_error"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -176,7 +210,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_card"
                     android:gravity="center"
-                    android:textColor="@color/vc_blue"
+                    android:textColor="@color/notion_purple"
                     android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -188,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg"
             android:text="学生签到明细"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="20sp"
             android:textStyle="bold" />
 

@@ -127,7 +127,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         if (taskId == null) {
             return;
         }
-        RetrofitClient.api().getStudentCheckInRecords(sessionManager.authHeader())
+        RetrofitClient.api().getStudentCheckInRecords(sessionManager.authHeader(), courseId, null, null, null)
                 .enqueue(new SimpleCallback<List<CheckInRecord>>() {
                     @Override
                     public void onSuccess(List<CheckInRecord> data) {

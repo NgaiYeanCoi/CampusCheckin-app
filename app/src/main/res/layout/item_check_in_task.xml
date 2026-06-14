@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:textColor="@color/vc_blue"
+            android:textColor="@color/notion_purple"
             android:textSize="13sp" />
     </LinearLayout>
 
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_sm"
-        android:textColor="@color/vc_body"
+        android:textColor="@color/notion_body"
         android:textSize="14sp" />
 
     <TextView
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_xs"
         android:fontFamily="monospace"
-        android:textColor="@color/vc_mute"
+        android:textColor="@color/notion_mute"
         android:textSize="12sp" />
 
     <TextView
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_sm"
-        android:textColor="@color/vc_body"
+        android:textColor="@color/notion_body"
         android:textSize="13sp" />
 
     <TextView
@@ -64,7 +64,7 @@
         android:layout_marginTop="@dimen/space_xs"
         android:fontFamily="monospace"
         android:text="点击查看学生签到明细"
-        android:textColor="@color/vc_blue"
+        android:textColor="@color/notion_purple"
         android:textSize="12sp" />
 
     <com.google.android.material.button.MaterialButton
@@ -73,7 +73,7 @@
         android:layout_height="42dp"
         android:layout_marginTop="@dimen/space_md"
         android:text="手动截止"
-        android:textColor="@color/vc_card"
-        app:backgroundTint="@color/vc_ink"
-        app:cornerRadius="999dp" />
+        android:textColor="@color/notion_card"
+        app:backgroundTint="@color/cc_primary"
+        app:cornerRadius="@dimen/radius_md" />
 </LinearLayout>

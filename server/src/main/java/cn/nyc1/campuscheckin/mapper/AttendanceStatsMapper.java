@@ -37,6 +37,12 @@ public interface AttendanceStatsMapper {
               t.course_id AS courseId,
               c.course_name AS courseName,
               t.title,
+              t.check_in_type AS checkInType,
+              CASE
+                WHEN t.check_in_type = 'QR_CODE'
+                  THEN CONCAT('campuscheckin://check-in?taskId=', t.task_id, '&token=', t.qr_token)
+                ELSE NULL
+              END AS qrPayload,
               t.start_time AS startTime,
               t.end_time AS endTime,
               CASE

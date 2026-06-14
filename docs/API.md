@@ -287,7 +287,7 @@ GET /student/check-in-tasks/active
 | courseName | string | 课程名称 |
 | teacherName | string | 授课教师 |
 | title | string | 签到任务标题 |
-| checkInType | string | 签到方式，第一阶段固定为 `PASSWORD` |
+| checkInType | string | 签到方式：`PASSWORD` 或 `QR_CODE` |
 | startTime | string | 签到开始时间 |
 | endTime | string | 签到截止时间 |
 | taskStatus | string | 任务状态：`NOT_STARTED`、`ACTIVE`、`ENDED`、`CANCELLED` |
@@ -307,7 +307,8 @@ POST /student/check-in
 ```json
 {
   "taskId": 1,
-  "password": "246810"
+  "password": "246810",
+  "qrToken": null
 }
 ```
 
@@ -316,7 +317,8 @@ POST /student/check-in
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
 | taskId | long | 是 | 签到任务 ID |
-| password | string | 是 | 课堂签到口令 |
+| password | string | 条件必填 | 课堂签到口令，`PASSWORD` 任务使用 |
+| qrToken | string | 条件必填 | 二维码静态 token，`QR_CODE` 任务使用 |
 
 成功响应：
 
@@ -361,6 +363,15 @@ GET /student/check-in-records
 ```
 
 是否需要 token：是，学生角色
+
+查询参数：
+
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| courseId | long | 否 | 按课程筛选 |
+| status | string | 否 | 按签到状态筛选：`SIGNED`、`LATE`、`ABSENT`、`EXCEPTION` |
+| startDate | string | 否 | 开始日期，格式 `yyyy-MM-dd` |
+| endDate | string | 否 | 结束日期，格式 `yyyy-MM-dd` |
 
 成功响应：
 
@@ -432,6 +443,7 @@ POST /teacher/check-in-tasks
 {
   "courseId": 1,
   "title": "Android应用开发 临时签到",
+  "checkInType": "PASSWORD",
   "password": "888888",
   "startTime": "2026-05-17T14:00:00",
   "endTime": "2026-05-17T15:00:00"
@@ -444,7 +456,8 @@ POST /teacher/check-in-tasks
 |---|---|---|---|
 | courseId | long | 是 | 课程 ID |
 | title | string | 是 | 签到任务标题 |
-| password | string | 是 | 课堂口令 |
+| checkInType | string | 否 | 签到方式：`PASSWORD` 或 `QR_CODE`，默认 `PASSWORD` |
+| password | string | 条件必填 | 课堂口令，`PASSWORD` 模式必填；`QR_CODE` 模式可为空 |
 | startTime | string | 是 | ISO 日期时间 |
 | endTime | string | 是 | ISO 日期时间 |
 
@@ -454,13 +467,14 @@ POST /teacher/check-in-tasks
 {
   "code": 200,
   "message": "success",
-    "data": {
-      "taskId": 4,
-      "courseId": 1,
-      "courseName": "Android应用开发",
-      "title": "Android应用开发 临时签到",
-      "startTime": "2026-05-17 14:00:00",
-      "endTime": "2026-05-17 15:00:00",
+  "data": {
+    "taskId": 4,
+    "courseId": 1,
+    "courseName": "Android应用开发",
+    "title": "Android应用开发 临时签到",
+    "checkInType": "PASSWORD",
+    "startTime": "2026-05-17 14:00:00",
+    "endTime": "2026-05-17 15:00:00",
     "status": "ACTIVE"
   }
 }
@@ -500,6 +514,7 @@ GET /teacher/check-in-tasks
       "courseId": 1,
       "courseName": "Android应用开发",
       "title": "Android应用开发 临时签到",
+      "checkInType": "PASSWORD",
       "startTime": "2026-05-17 14:00:00",
       "endTime": "2026-05-17 15:00:00",
       "status": "ACTIVE",
@@ -535,6 +550,7 @@ POST /teacher/check-in-tasks/{taskId}/end
     "courseId": 1,
     "courseName": "Android应用开发",
     "title": "Android应用开发 临时签到",
+    "checkInType": "PASSWORD",
     "startTime": "2026-05-17 14:00:00",
     "endTime": "2026-05-17 14:32:00",
     "status": "ENDED"
@@ -576,6 +592,8 @@ GET /teacher/check-in-tasks/{taskId}/detail
     "courseId": 1,
     "courseName": "Android应用开发",
     "title": "Android应用开发 临时签到",
+    "checkInType": "QR_CODE",
+    "qrPayload": "campuscheckin://check-in?taskId=4&token=abc123",
     "startTime": "2026-05-17 14:00:00",
     "endTime": "2026-05-17 15:00:00",
     "status": "ACTIVE",
@@ -622,6 +640,12 @@ GET /teacher/check-in-tasks/{taskId}/detail
 | ABSENT | 任务结束后仍未提交 |
 | EXCEPTION | 异常 |
 
+二维码签到说明：
+
+- `checkInType=QR_CODE` 时，`qrPayload` 用于教师端生成二维码。
+- `qrPayload` 格式固定为 `campuscheckin://check-in?taskId={taskId}&token={qrToken}`。
+- 学生端扫码后提交 `taskId + qrToken`，不需要输入课堂口令。
+
 ### 7.6 教师查看课程考勤统计
 
 ```text
@@ -658,6 +682,39 @@ GET /teacher/courses/{courseId}/attendance-stats
     }
   ]
 }
+```
+
+### 7.7 导出课程考勤统计 CSV
+
+```text
+GET /teacher/courses/{courseId}/attendance-stats/export
+```
+
+是否需要 token：是，教师角色
+
+路径参数：
+
+| 参数 | 类型 | 说明 |
+|---|---|---|
+| courseId | long | 课程 ID |
+
+查询参数：
+
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| taskId | long | 否 | 只导出某一次签到任务统计 |
+
+成功响应：
+
+```text
+Content-Type: text/csv;charset=UTF-8
+Content-Disposition: attachment; filename="attendance-stats-course-1.csv"
+```
+
+CSV 字段：
+
+```text
+课程编号,课程名称,签到任务ID,签到任务标题,应到,已签,迟到,缺勤,异常,出勤率
 ```
 
 ## 8. 通用课程接口
@@ -753,6 +810,13 @@ GET /courses/{courseId}/active-check-in-task
 | ACTIVE | 可签到 |
 | ENDED | 已结束 |
 | CANCELLED | 已取消 |
+
+签到方式：
+
+| 值 | 说明 |
+|---|---|
+| PASSWORD | 课堂口令签到 |
+| QR_CODE | 静态二维码签到 |
 
 签到记录状态：
 

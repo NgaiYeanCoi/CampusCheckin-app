@@ -2,6 +2,7 @@ package cn.nyc1.campuscheckin.mapper;
 
 import cn.nyc1.campuscheckin.dto.CheckInRecordResponse;
 import cn.nyc1.campuscheckin.entity.CheckInRecord;
+import java.time.LocalDate;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +30,7 @@ public interface CheckInRecordMapper {
     int insert(CheckInRecord record);
 
     @Select("""
+            <script>
             SELECT
               r.record_id AS recordId,
               r.task_id AS taskId,
@@ -42,7 +44,26 @@ public interface CheckInRecordMapper {
             JOIN check_in_tasks t ON t.task_id = r.task_id
             JOIN courses c ON c.course_id = r.course_id
             WHERE r.student_id = #{studentId}
+            <if test="courseId != null">
+              AND r.course_id = #{courseId}
+            </if>
+            <if test="status != null and status != ''">
+              AND r.status = #{status}
+            </if>
+            <if test="startDate != null">
+              AND DATE(COALESCE(r.check_in_time, t.start_time)) &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+              AND DATE(COALESCE(r.check_in_time, t.start_time)) &lt;= #{endDate}
+            </if>
             ORDER BY t.start_time DESC, r.record_id DESC
+            </script>
             """)
-    List<CheckInRecordResponse> findResponsesByStudentId(@Param("studentId") Long studentId);
+    List<CheckInRecordResponse> findResponsesByStudentId(
+            @Param("studentId") Long studentId,
+            @Param("courseId") Long courseId,
+            @Param("status") String status,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
 }

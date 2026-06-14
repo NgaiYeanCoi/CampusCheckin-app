@@ -51,9 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     private void selectRole(String role) {
         selectedRole = role;
         boolean isStudent = "STUDENT".equals(role);
-        int primary = ContextCompat.getColor(this, R.color.vc_ink);
-        int surface = ContextCompat.getColor(this, R.color.vc_card);
-        int text = ContextCompat.getColor(this, R.color.vc_ink);
+        int primary = ContextCompat.getColor(this, R.color.cc_primary);
+        int surface = ContextCompat.getColor(this, R.color.notion_card);
+        int text = ContextCompat.getColor(this, R.color.notion_ink);
         int white = ContextCompat.getColor(this, R.color.white);
 
         buttonStudent.setBackgroundTintList(ColorStateList.valueOf(isStudent ? primary : surface));

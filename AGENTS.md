@@ -63,16 +63,16 @@ SA-Token 参考项目：
 - `DEPLOY.md`
 - `docs/API.md`
 - `docs/PRD.md`
-- `docs/vercel/DESIGN.md`
+- `docs/notion/DESIGN.md`
 - `docs/schema.sql`
 - `AGENTS.md`
 
 说明：
 
-- 当前主视觉设计文件路径是 `docs/vercel/DESIGN.md`。
-- `docs/notion/DESIGN.md` 是历史设计参考，不作为当前 Android 主视觉来源。
+- 当前主视觉设计文件路径是 `docs/notion/DESIGN.md`。
+- `docs/vercel/DESIGN.md` 是历史设计参考，不作为当前 Android 主视觉来源。
 - `docs/PRD.md` 决定功能范围。
-- `docs/vercel/DESIGN.md` 决定视觉方向。
+- `docs/notion/DESIGN.md` 决定视觉方向。
 - `docs/schema.sql` 决定数据库结构和演示数据。
 - `README.md` 决定项目介绍和文档入口。
 - `DEPLOY.md` 决定部署、运行、数据库连接和接口测试方式。
@@ -84,7 +84,7 @@ SA-Token 参考项目：
 
 - 不要自由发挥功能范围。
 - `docs/PRD.md` 决定第一阶段要做什么功能。
-- `docs/vercel/DESIGN.md` 决定当前视觉方向。
+- `docs/notion/DESIGN.md` 决定当前视觉方向。
 - `AGENTS.md` 决定代码结构和实现规则。
 - 不要把 Android 项目改成 Jetpack Compose。
 - 不要引入复杂架构。
@@ -277,8 +277,8 @@ Drawable 命名规则：
 
 ## UI Rules
 
-- 遵守 `docs/vercel/DESIGN.md` 的当前视觉方向，并适配校园考勤 APP。
-- 使用 clean / card-based / Vercel style。
+- 遵守 `docs/notion/DESIGN.md` 的当前视觉方向，并适配校园考勤 APP。
+- 使用 Notion style：紫色主按钮、深 navy 重点区域、暖灰背景、12dp 卡片和柔和状态色。
 - 不复制任何品牌 Logo、商标或专有插画。
 - 页面应适合 Android 手机屏幕。
 - 课程、签到任务、签到记录、统计信息优先使用卡片式布局。

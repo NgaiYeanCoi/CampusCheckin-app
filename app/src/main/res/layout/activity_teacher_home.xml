@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vc_bg">
+    android:background="@color/notion_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/VercelMonoLabel"
+                style="@style/NotionLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -34,7 +34,7 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:text="我"
-                android:textColor="@color/vc_card"
+                android:textColor="@color/notion_card"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="34sp"
             android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:textColor="@color/vc_body"
+            android:textColor="@color/notion_body"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -65,7 +65,7 @@
             android:padding="@dimen/space_xl">
 
             <TextView
-                style="@style/VercelMonoLabel"
+                style="@style/NotionLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ACTION" />
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_lg"
                 android:text="发起新的口令签到"
-                android:textColor="@color/vc_card"
+                android:textColor="@color/notion_card"
                 android:textSize="23sp"
                 android:textStyle="bold" />
 
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_md"
                 android:text="创建后可查看状态，也可以手动截止正在进行的签到。"
-                android:textColor="@color/vc_mute"
+                android:textColor="@color/notion_mute"
                 android:textSize="13sp" />
 
             <com.google.android.material.button.MaterialButton
@@ -93,9 +93,9 @@
                 android:layout_height="44dp"
                 android:layout_marginTop="@dimen/space_lg"
                 android:text="发起签到"
-                android:textColor="@color/vc_ink"
-                app:backgroundTint="@color/vc_card"
-                app:cornerRadius="999dp" />
+                android:textColor="@color/notion_ink"
+                app:backgroundTint="@color/notion_card"
+                app:cornerRadius="@dimen/radius_md" />
         </LinearLayout>
 
         <TextView
@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_md"
-            android:textColor="@color/vc_body"
+            android:textColor="@color/notion_body"
             android:textSize="13sp" />
 
         <TextView
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg"
             android:text="Recent tasks"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg"
             android:text="Courses"
-            android:textColor="@color/vc_ink"
+            android:textColor="@color/notion_ink"
             android:textSize="20sp"
             android:textStyle="bold" />
 

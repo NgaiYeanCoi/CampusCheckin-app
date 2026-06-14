@@ -76,6 +76,9 @@ public class ActiveCheckInTaskAdapter extends RecyclerView.Adapter<ActiveCheckIn
             return "未开始";
         }
         if ("ACTIVE".equals(task.taskStatus)) {
+            if ("QR_CODE".equals(task.checkInType)) {
+                return "扫码签到";
+            }
             return "输入口令签到";
         }
         return "不可签到";

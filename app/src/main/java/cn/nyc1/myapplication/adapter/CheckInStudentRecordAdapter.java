@@ -41,13 +41,13 @@ public class CheckInStudentRecordAdapter extends RecyclerView.Adapter<CheckInStu
         holder.meta.setText(FormatUtils.safe(item.studentNo) + " · " + FormatUtils.safe(item.className));
         holder.time.setText(timeText(item));
         if ("SIGNED".equals(item.status)) {
-            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.vc_blue));
+            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.notion_purple));
         } else if ("LATE".equals(item.status)) {
-            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.vc_warning));
+            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.notion_warning));
         } else if ("ABSENT".equals(item.status) || "EXCEPTION".equals(item.status)) {
-            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.vc_error));
+            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.notion_error));
         } else {
-            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.vc_mute));
+            holder.status.setTextColor(holder.itemView.getContext().getColor(R.color.notion_mute));
         }
     }
 

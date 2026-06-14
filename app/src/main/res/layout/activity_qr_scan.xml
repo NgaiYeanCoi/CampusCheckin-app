@@ -8,10 +8,10 @@
     android:padding="@dimen/space_xl">
 
     <TextView
-        android:id="@+id/textBack"
+        android:id="@+id/buttonBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="← Courses"
+        android:text="← Student"
         android:textColor="@color/notion_purple"
         android:textSize="15sp"
         android:textStyle="bold" />
@@ -21,39 +21,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_xl"
-        android:text="ATTENDANCE / CSE101" />
+        android:text="QR CHECK-IN" />
 
     <TextView
-        android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_md"
+        android:text="扫码签到."
         android:textColor="@color/notion_ink"
         android:textSize="38sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textStatus"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_sm"
-        android:textColor="@color/notion_body"
-        android:textSize="14sp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonExportCsv"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
         android:layout_marginTop="@dimen/space_lg"
-        android:text="导出 CSV"
-        android:textColor="@color/notion_card"
-        app:backgroundTint="@color/cc_primary"
-        app:cornerRadius="@dimen/radius_md" />
+        android:background="@drawable/bg_card"
+        android:orientation="vertical"
+        android:padding="@dimen/space_xl">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerStats"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/space_lg"
-        android:layout_weight="1" />
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="请扫描教师端展示的签到二维码"
+            android:textColor="@color/notion_body"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonScan"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/space_lg"
+            android:text="重新扫码"
+            android:textColor="@color/notion_card"
+            app:backgroundTint="@color/cc_primary"
+            app:cornerRadius="@dimen/radius_md" />
+    </LinearLayout>
 </LinearLayout>
+
+
+
